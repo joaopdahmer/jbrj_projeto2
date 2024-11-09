@@ -44,17 +44,17 @@
         }
         /* Mapa e visualizador de imagem */
         .map-frame, .image-frame {
-            display: none;
             width: 70%;
             height: 100vh;
+            display: none;
             position: relative;
+        }
+        .map-frame.active, .image-frame.active {
+            display: block;
         }
         #map-viewer, #image-viewer {
             width: 100%;
             height: 100%;
-        }
-        .map-frame.active, .image-frame.active {
-            display: block;
         }
     </style>
 </head>
