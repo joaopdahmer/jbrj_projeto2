@@ -13,42 +13,65 @@
             margin: 0;
             font-family: Arial, sans-serif;
             overflow: hidden;
+            display: flex;
         }
         /* Container principal */
         .container {
-            position: relative;
-            height: 100vh;
             display: flex;
-        }
-        /* Estilos para o mapa */
-        #map {
-            width: 100%;
             height: 100vh;
-            flex: 1;
-            position: relative;
+            width: 100vw;
         }
-        /* Painel de narrativa */
+        /* Painel de narrativa à esquerda */
         .narrative-panel {
             width: 40%;
             height: 100vh;
-            background-color: white;
             overflow-y: auto;
             padding: 20px;
+            background-color: #f8f8f8;
             box-sizing: border-box;
+            border-right: 1px solid #ddd;
         }
-        .narrative-panel img {
-            width: 100%;
-            height: auto;
-            margin-top: 10px;
-        }
-        /* Título da narrativa */
         .narrative-title {
             font-size: 24px;
             font-weight: bold;
+            margin-bottom: 10px;
         }
-        /* Descrição da narrativa */
-        .narrative-content {
-            font-size: 16px;
+        .narrative-section {
+            margin-bottom: 40px;
+            padding: 10px;
+        }
+        .narrative-section h2 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+        .narrative-section p {
+            margin: 0;
+        }
+        /* Frame de imagem à direita */
+        .image-frame {
+            width: 60%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff;
+            box-sizing: border-box;
+        }
+        .image-frame img {
+            max-width: 90%;
+            max-height: 90%;
+            border: 5px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: opacity 0.5s;
+        }
+        /* Mapa abaixo da narrativa */
+        #map {
+            width: 100%;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
         }
     </style>
 </head>
@@ -57,110 +80,99 @@
 <div class="container">
     <!-- Painel de narrativa à esquerda -->
     <div class="narrative-panel" id="narrative-panel">
-        <div class="narrative-title" id="narrative-title">Trilha Frei Leandro</div>
-        <div class="narrative-content" id="narrative-content">
-            <!-- O conteúdo será preenchido dinamicamente -->
+        <div class="narrative-title">Trilha Frei Leandro</div>
+        <!-- Seções de narrativa, cada uma com uma planta -->
+        <div class="narrative-section" data-plant-id="1">
+            <h2>Chá (Camellia sinensis)</h2>
+            <p>Frei Leandro introduziu o chá no Brasil, promovendo seu cultivo local e contribuindo para a economia. Ele aclimatou a <em>Camellia sinensis</em> no Jardim Botânico, incentivando o cultivo da planta como importante recurso econômico e cultural.</p>
         </div>
-        <img id="narrative-image" src="" alt="Imagem da planta">
+        <div class="narrative-section" data-plant-id="2">
+            <h2>Teca (Tectona grandis)</h2>
+            <p>A teca foi plantada para estudar seu potencial uso na indústria madeireira devido à sua madeira durável. Frei Leandro promoveu o cultivo da teca para produção sustentável de madeira de alta qualidade.</p>
+        </div>
+        <div class="narrative-section" data-plant-id="3">
+            <h2>Fruta-pão (Artocarpus altilis)</h2>
+            <p>A fruta-pão foi cultivada como alternativa alimentar básica, visando melhorar a nutrição da população. Frei Leandro reconheceu a fruta-pão como uma solução viável para aumentar a segurança alimentar.</p>
+        </div>
+        <div class="narrative-section" data-plant-id="4">
+            <h2>Esponja-de-ouro (Senna spectabilis)</h2>
+            <p>Esponja-de-ouro foi estudada por suas flores vibrantes e usos medicinais potenciais. Ele cultivou a planta para fins ornamentais e exploração de propriedades medicinais.</p>
+        </div>
+        <div class="narrative-section" data-plant-id="5">
+            <h2>Biribá (Rollinia mucosa)</h2>
+            <p>Biribá foi apreciada por seus frutos saborosos e seu potencial agrícola. Frei Leandro incentivou o cultivo do biribá como recurso alimentar de alto rendimento.</p>
+        </div>
+        <div class="narrative-section" data-plant-id="6">
+            <h2>Sibipiruna (Caesalpinia peltophoroides)</h2>
+            <p>Sibipiruna foi promovida para uso ornamental na arborização urbana e conservação ambiental. Ele reconheceu seu valor paisagístico para cidades brasileiras.</p>
+        </div>
+        <div class="narrative-section" data-plant-id="7">
+            <h2>Abacate (Persea americana)</h2>
+            <p>Abacate foi estudado por seu valor nutricional e potencial econômico no mercado agrícola. Frei Leandro incentivou o cultivo do abacate em várias regiões do Brasil.</p>
+        </div>
+        <div class="narrative-section" data-plant-id="8">
+            <h2>Árvore-do-carvão (Calliandra brevipes)</h2>
+            <p>Árvore-do-carvão foi explorada como fonte sustentável de combustível e práticas energéticas. Ele cultivou a planta como alternativa de produção sustentável de carvão vegetal.</p>
+        </div>
+        <div class="narrative-section" data-plant-id="9">
+            <h2>Olho-de-boi (Machaerium acutifolium)</h2>
+            <p>Olho-de-boi foi pesquisado por suas sementes ornamentais e propriedades medicinais. Frei Leandro estudou seus usos medicinais e seu potencial econômico.</p>
+        </div>
+        <div class="narrative-section" data-plant-id="10">
+            <h2>Jaqueira (Artocarpus heterophyllus)</h2>
+            <p>Jaqueira foi introduzida como valiosa fonte alimentar e cultural. Ele incentivou a disseminação da jaca devido a seu alto valor nutritivo.</p>
+        </div>
     </div>
 
-    <!-- Div onde o mapa será renderizado -->
-    <div id="map"></div>
+    <!-- Frame da imagem à direita -->
+    <div class="image-frame">
+        <img id="plant-image" src="" alt="Imagem da planta" style="opacity: 0;">
+    </div>
 </div>
 
 <!-- Inclui os scripts do Leaflet -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.0/gpx.min.js"></script>
-
 <script>
-    // Inicializa o mapa
+    // Configurações do mapa
     var map = L.map('map', {
         zoomControl: true,
         maxZoom: 19
     }).setView([-22.9680, -43.2230], 17);
 
-    // Adiciona a camada de tiles do OpenStreetMap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors',
         maxZoom: 19
     }).addTo(map);
 
-    // Dados GeoJSON das plantas
-    var plantasGeoJSON = {
-        "type": "FeatureCollection",
-        "features": [
-            { "type": "Feature", "properties": { "id": 1 }, "geometry": { "type": "Point", "coordinates": [ -43.222145588873275, -22.969239816399224 ] } },
-            { "type": "Feature", "properties": { "id": 2 }, "geometry": { "type": "Point", "coordinates": [ -43.22322470227887, -22.970023005533903 ] } },
-            { "type": "Feature", "properties": { "id": 3 }, "geometry": { "type": "Point", "coordinates": [ -43.224356107523484, -22.970087181881812 ] } },
-            { "type": "Feature", "properties": { "id": 4 }, "geometry": { "type": "Point", "coordinates": [ -43.226850665935757, -22.968098903547496 ] } },
-            { "type": "Feature", "properties": { "id": 5 }, "geometry": { "type": "Point", "coordinates": [ -43.225869005502922, -22.967514185710993 ] } },
-            { "type": "Feature", "properties": { "id": 6 }, "geometry": { "type": "Point", "coordinates": [ -43.227575620976978, -22.967038805356093 ] } },
-            { "type": "Feature", "properties": { "id": 7 }, "geometry": { "type": "Point", "coordinates": [ -43.228031986117664, -22.966770215455586 ] } },
-            { "type": "Feature", "properties": { "id": 8 }, "geometry": { "type": "Point", "coordinates": [ -43.226009242707626, -22.966014360691322 ] } },
-            { "type": "Feature", "properties": { "id": 9 }, "geometry": { "type": "Point", "coordinates": [ -43.223996006904699, -22.967685916864205 ] } },
-            { "type": "Feature", "properties": { "id": 10 }, "geometry": { "type": "Point", "coordinates": [ -43.224678771939402, -22.96835679739003 ] } }
-        ]
+    // Dados das plantas
+    const plantImages = {
+        1: 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Camellia_sinensis_drawing.jpg',
+        2: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Starr_010304-0485_Tectona_grandis.jpg/1024px-Starr_010304-0485_Tectona_grandis.jpg',
+        3: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/6FSkFpeJcrN8npF?file=/&fileId=17944112&x=1927&y=920&a=true&etag=b086dc8c875719c27b005e285a81f023',
+        4: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/SJEBgty3Zspf2WK?file=/&fileId=17955227&x=1927&y=920&a=true&etag=0b6a4b856343f59f459f79b898da422e',
+        5: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/pBdB65BDrQPeBHX?file=/&fileId=17944122&x=1927&y=920&a=true&etag=096e795f612361b3ff19f0bc417a85bd',
+        6: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/JkRCiBY5BGmXbar?file=/&fileId=17946713&x=1927&y=920&a=true&etag=23eab4b83e6242cb0615d35154f39796',
+        7: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/3Wf4Q3Kj4RWDgEs?file=/&fileId=17946734&x=1927&y=920&a=true&etag=0813af235bcf5f414f6154895af48f7a',
+        8: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/s8MjLATgZYYNwEL?file=/&fileId=17946774&x=1927&y=920&a=true&etag=7a36eef3361525dc41d6fa10d826ce9e',
+        9: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/QNskkTaRdamRAFT?file=/&fileId=17946810&x=1927&y=920&a=true&etag=6b21e8018fa5dda759e9d88e223c800d',
+        10: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/TDMYgQJGW7QirAo?file=/&fileId=17946839&x=1927&y=920&a=true&etag=109dd2b574c1d36a21c667334b562643'
     };
 
-    // Detalhes das plantas
-    var plantDetails = {
-        1: { name: 'Chá (Camellia sinensis)', description: 'Frei Leandro introduziu o chá no Brasil...', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Camellia_sinensis_drawing.jpg' },
-        2: { name: 'Teca (Tectona grandis)', description: 'A teca foi plantada para estudo...', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Starr_010304-0485_Tectona_grandis.jpg/1024px-Starr_010304-0485_Tectona_grandis.jpg' },
-        3: { name: 'Fruta-pão (Artocarpus altilis)', description: 'A fruta-pão foi cultivada como alternativa alimentar básica...', imageUrl: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/6FSkFpeJcrN8npF?file=/&fileId=17944112&x=1927&y=920&a=true&etag=b086dc8c875719c27b005e285a81f023' },
-        4: { name: 'Esponja-de-ouro (Senna spectabilis)', description: 'Estudada por suas flores vibrantes e usos medicinais...', imageUrl: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/SJEBgty3Zspf2WK?file=/&fileId=17955227&x=1927&y=920&a=true&etag=0b6a4b856343f59f459f79b898da422e' },
-        5: { name: 'Biribá (Rollinia mucosa)', description: 'Apreciada por seus frutos saborosos e potencial agrícola...', imageUrl: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/pBdB65BDrQPeBHX?file=/&fileId=17944122&x=1927&y=920&a=true&etag=096e795f612361b3ff19f0bc417a85bd' },
-        6: { name: 'Sibipiruna (Caesalpinia peltophoroides)', description: 'Usada para arborização urbana...', imageUrl: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/JkRCiBY5BGmXbar?file=/&fileId=17946713&x=1927&y=920&a=true&etag=23eab4b83e6242cb0615d35154f39796' },
-        7: { name: 'Abacate (Persea americana)', description: 'Estudado por seu valor nutricional e potencial econômico...', imageUrl: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/3Wf4Q3Kj4RWDgEs?file=/&fileId=17946734&x=1927&y=920&a=true&etag=0813af235bcf5f414f6154895af48f7a' },
-        8: { name: 'Árvore-do-carvão (Calliandra brevipes)', description: 'Explorada como fonte de combustível sustentável...', imageUrl: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/s8MjLATgZYYNwEL?file=/&fileId=17946774&x=1927&y=920&a=true&etag=7a36eef3361525dc41d6fa10d826ce9e' },
-        9: { name: 'Olho-de-boi (Machaerium acutifolium)', description: 'Pesquisado por suas sementes ornamentais e propriedades medicinais...', imageUrl: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/QNskkTaRdamRAFT?file=/&fileId=17946810&x=1927&y=920&a=true&etag=6b21e8018fa5dda759e9d88e223c800d' },
-        10: { name: 'Jaqueira (Artocarpus heterophyllus)', description: 'Introduzida como uma fonte alimentar e cultural...', imageUrl: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/TDMYgQJGW7QirAo?file=/&fileId=17946839&x=1927&y=920&a=true&etag=109dd2b574c1d36a21c667334b562643' }
-    };
+    // Função para atualizar a imagem conforme rola a narrativa
+    const narrativePanel = document.getElementById('narrative-panel');
+    const plantImage = document.getElementById('plant-image');
 
-    // Ícone personalizado para as plantas
-    var plantIcon = L.icon({
-        iconUrl: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/PwkmGYHBiPLXqkQ?file=/&fileId=17944130&x=1927&y=920&a=true&etag=8baaf56e22ff20721c74c68b82a9eb73',
-        iconSize: [32, 37],
-        iconAnchor: [16, 37],
-        popupAnchor: [0, -28]
+    narrativePanel.addEventListener('scroll', () => {
+        document.querySelectorAll('.narrative-section').forEach(section => {
+            const rect = section.getBoundingClientRect();
+            if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
+                const plantId = section.getAttribute('data-plant-id');
+                plantImage.src = plantImages[plantId];
+                plantImage.style.opacity = 1;
+            }
+        });
     });
-
-    L.geoJSON(plantasGeoJSON, {
-        pointToLayer: function(feature, latlng) {
-            return L.marker(latlng, { icon: plantIcon });
-        },
-        onEachFeature: function(feature, layer) {
-            var details = plantDetails[feature.properties.id];
-            layer.bindPopup('<strong>' + details.name + '</strong><br>' + details.description);
-            layer.on('click', function() {
-                showNarrativePanel(feature.properties.id);
-            });
-        }
-    }).addTo(map);
-
-    // Função para exibir a narrativa
-    function showNarrativePanel(plantId) {
-        var details = plantDetails[plantId];
-        document.getElementById('narrative-title').innerText = details.name;
-        document.getElementById('narrative-content').innerHTML = `<p>${details.description}</p>`;
-        document.getElementById('narrative-image').src = details.imageUrl;
-
-        // Exibe o painel de narrativa e ajusta o mapa
-        document.getElementById('narrative-panel').style.display = 'block';
-        document.getElementById('map').style.width = '60%';
-        setTimeout(() => { map.invalidateSize(); }, 500);
-    }
-
-    // Função para ocultar a narrativa
-    function hideNarrativePanel() {
-        document.getElementById('narrative-panel').style.display = 'none';
-        document.getElementById('map').style.width = '100%';
-        setTimeout(() => { map.invalidateSize(); }, 500);
-    }
-
-    // Evento para fechar o painel de narrativa
-    document.getElementById('close-button').addEventListener('click', hideNarrativePanel);
 </script>
 
 </body>
 </html>
-
