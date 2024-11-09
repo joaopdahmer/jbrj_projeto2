@@ -41,7 +41,8 @@
             display: none; /* Oculto por padrão */
         }
         .map-container,
-        .image-container {
+        .image-container,
+        .osm-container {
             width: 100%;
             height: 100%;
             position: absolute;
@@ -64,17 +65,24 @@
         <h2>Chá (Camellia sinensis)</h2>
         <p>Veja uma ilustração botânica da planta do chá...</p>
     </div>
+    <div class="narrative-section" data-type="osm">
+        <h2>Mapa do Jardim Botânico</h2>
+        <p>Visualize o mapa completo do Jardim Botânico no OSM...</p>
+    </div>
     <!-- Adicione outras narrativas aqui com a mesma estrutura -->
 </div>
 
 <div class="viewer">
-    <!-- Contêiner do Mapa -->
+    <!-- Contêiner do Mapa com a Trilha -->
     <div id="map-container" class="map-container"></div>
     
     <!-- Contêiner da Imagem -->
     <div id="image-container" class="image-container">
         <div id="image-viewer"></div>
     </div>
+
+    <!-- Contêiner do OpenStreetMap -->
+    <div id="osm-container" class="osm-container"></div>
 </div>
 
 <!-- Scripts -->
@@ -84,21 +92,22 @@
     const viewer = document.querySelector('.viewer');
     const mapContainer = document.getElementById('map-container');
     const imageContainer = document.getElementById('image-container');
+    const osmContainer = document.getElementById('osm-container');
 
-    // Inicializar o mapa e a trilha GPX
-    let map;
-    function initializeMap() {
-        if (!map) {
-            map = L.map('map-container').setView([-22.9674, -43.2291], 16);
+    // Inicializar o mapa com a trilha GPX
+    let trailMap;
+    function initializeTrailMap() {
+        if (!trailMap) {
+            trailMap = L.map('map-container').setView([-22.9674, -43.2291], 16);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
+            }).addTo(trailMap);
 
             // Adicionar a trilha GPX
             new L.GPX('https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/trilha_frei_leandro.gpx', {
                 async: true,
                 polyline_options: { color: 'blue', opacity: 0.75, weight: 5 }
-            }).addTo(map);
+            }).addTo(trailMap);
         }
     }
 
@@ -116,7 +125,18 @@
         imageViewer.fitBounds([[-100, -100], [100, 100]]);
     }
 
-    // Alterna entre mapa e imagem ao clicar na narrativa
+    // Inicializar o OpenStreetMap focado no Jardim Botânico
+    let osmMap;
+    function initializeOSMMap() {
+        if (!osmMap) {
+            osmMap = L.map('osm-container').setView([-22.9674, -43.2291], 16);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(osmMap);
+        }
+    }
+
+    // Alterna entre mapa, imagem e OSM ao clicar na narrativa
     document.querySelectorAll('.narrative-section').forEach(section => {
         section.addEventListener('click', function() {
             const type = this.getAttribute('data-type');
@@ -125,15 +145,20 @@
             // Esconde visualizações anteriores
             mapContainer.style.display = 'none';
             imageContainer.style.display = 'none';
+            osmContainer.style.display = 'none';
             viewer.style.display = 'none';
 
             if (type === 'map') {
-                initializeMap();
+                initializeTrailMap();
                 mapContainer.style.display = 'block';
                 viewer.style.display = 'block';
             } else if (type === 'image' && imageUrl) {
                 showImage(imageUrl);
                 imageContainer.style.display = 'block';
+                viewer.style.display = 'block';
+            } else if (type === 'osm') {
+                initializeOSMMap();
+                osmContainer.style.display = 'block';
                 viewer.style.display = 'block';
             }
         });
