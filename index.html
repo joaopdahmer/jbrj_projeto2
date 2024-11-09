@@ -34,7 +34,7 @@
         }
         .narrativaTexto {
             padding: 15px;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
             background-color: #fff;
             cursor: pointer;
             border-radius: 5px;
@@ -47,25 +47,66 @@
             font-size: 18px;
             margin-top: 0;
         }
+        p {
+            margin: 5px 0 0;
+            font-size: 14px;
+            color: #666;
+        }
     </style>
 </head>
 <body>
     <div id="narrativas">
         <h3>Introdução</h3>
-        <div class="narrativaTexto" onclick="mostrarOSM()" onmouseover="mostrarOSM()">Trilha Frei Leandro</div>
-        <div class="narrativaTexto" onclick="mostrarOSM()" onmouseover="mostrarOSM()">Sobre Frei Leandro</div>
+        <div class="narrativaTexto" onclick="mostrarOSM()" onmouseover="mostrarOSM()">
+            Trilha Frei Leandro
+            <p>Uma visão geral da trilha que celebra o legado de Frei Leandro no Jardim Botânico.</p>
+        </div>
+        <div class="narrativaTexto" onclick="mostrarOSM()" onmouseover="mostrarOSM()">
+            Sobre Frei Leandro
+            <p>Informações sobre a vida e contribuições de Frei Leandro ao Jardim Botânico.</p>
+        </div>
 
         <h3>Plantas</h3>
-        <div class="narrativaTexto" onclick="mostrarPlantaImagem('camellia')" onmouseover="mostrarPlantaImagem('camellia')">Chá - Camellia sinensis</div>
-        <div class="narrativaTexto" onclick="mostrarPlantaImagem('tectona')" onmouseover="mostrarPlantaImagem('tectona')">Teca - Tectona grandis</div>
-        <div class="narrativaTexto" onclick="mostrarPlantaImagem('artocarpus')" onmouseover="mostrarPlantaImagem('artocarpus')">Fruta-Pão - Artocarpus altilis</div>
-        <div class="narrativaTexto" onclick="mostrarPlantaImagem('stifftia')" onmouseover="mostrarPlantaImagem('stifftia')">Esponja-de-Ouro - Stifftia chrysantha</div>
-        <div class="narrativaTexto" onclick="mostrarPlantaImagem('annona')" onmouseover="mostrarPlantaImagem('annona')">Biribá - Annona mucosa</div>
-        <div class="narrativaTexto" onclick="mostrarPlantaImagem('cenostigma')" onmouseover="mostrarPlantaImagem('cenostigma')">Sibipiruna - Cenostigma pluviosum</div>
-        <div class="narrativaTexto" onclick="mostrarPlantaImagem('persea')" onmouseover="mostrarPlantaImagem('persea')">Abacate - Persea americana</div>
-        <div class="narrativaTexto" onclick="mostrarPlantaImagem('albizia')" onmouseover="mostrarPlantaImagem('albizia')">Árvore-do-Carvão - Albizia lebbeck</div>
-        <div class="narrativaTexto" onclick="mostrarPlantaImagem('dimocarpus')" onmouseover="mostrarPlantaImagem('dimocarpus')">Olho-de-Boi - Dimocarpus longan</div>
-        <div class="narrativaTexto" onclick="mostrarPlantaImagem('artocarpus2')" onmouseover="mostrarPlantaImagem('artocarpus2')">Jaqueira - Artocarpus heterophyllus</div>
+        <div class="narrativaTexto" onclick="mostrarPlantaImagem('camellia')" onmouseover="mostrarPlantaImagem('camellia')">
+            Chá - Camellia sinensis
+            <p>Planta trazida da China em 1810, com grande valor cultural e econômico.</p>
+        </div>
+        <div class="narrativaTexto" onclick="mostrarPlantaImagem('tectona')" onmouseover="mostrarPlantaImagem('tectona')">
+            Teca - Tectona grandis
+            <p>Madeira asiática altamente valorizada, introduzida para construção naval.</p>
+        </div>
+        <div class="narrativaTexto" onclick="mostrarPlantaImagem('artocarpus')" onmouseover="mostrarPlantaImagem('artocarpus')">
+            Fruta-Pão - Artocarpus altilis
+            <p>Árvore com frutos ricos em nutrientes, trazida para alimentar populações locais.</p>
+        </div>
+        <div class="narrativaTexto" onclick="mostrarPlantaImagem('stifftia')" onmouseover="mostrarPlantaImagem('stifftia')">
+            Esponja-de-Ouro - Stifftia chrysantha
+            <p>Espécie nativa brasileira, valorizada por sua beleza e importância no paisagismo.</p>
+        </div>
+        <div class="narrativaTexto" onclick="mostrarPlantaImagem('annona')" onmouseover="mostrarPlantaImagem('annona')">
+            Biribá - Annona mucosa
+            <p>Fruta tropical apreciada por seu sabor, popularmente conhecida como fruta-do-conde.</p>
+        </div>
+        <div class="narrativaTexto" onclick="mostrarPlantaImagem('cenostigma')" onmouseover="mostrarPlantaImagem('cenostigma')">
+            Sibipiruna - Cenostigma pluviosum
+            <p>Árvore nativa brasileira, conhecida pela beleza de suas flores e sombra.</p>
+        </div>
+        <div class="narrativaTexto" onclick="mostrarPlantaImagem('persea')" onmouseover="mostrarPlantaImagem('persea')">
+            Abacate - Persea americana
+            <p>Fruta nativa da América Central, valorizada por suas propriedades nutricionais.</p>
+        </div>
+        <div class="narrativaTexto" onclick="mostrarPlantaImagem('albizia')" onmouseover="mostrarPlantaImagem('albizia')">
+            Árvore-do-Carvão - Albizia lebbeck
+            <p>Espécie versátil da Ásia, utilizada em móveis e conhecida por sua resistência.</p>
+        </div>
+        <div class="narrativaTexto" onclick="mostrarPlantaImagem('dimocarpus')" onmouseover="mostrarPlantaImagem('dimocarpus')">
+            Olho-de-Boi - Dimocarpus longan
+            <p>Planta originária da Ásia, conhecida por sua fruta e utilizada no paisagismo.</p>
+        </div>
+        <div class="narrativaTexto" onclick="mostrarPlantaImagem('artocarpus2')" onmouseover="mostrarPlantaImagem('artocarpus2')">
+            Jaqueira - Artocarpus heterophyllus
+            <p>Árvore frutífera da Índia, amplamente cultivada no Brasil por seus frutos abundantes.</p>
+        </div>
     </div>
 
     <div id="conteudo">
