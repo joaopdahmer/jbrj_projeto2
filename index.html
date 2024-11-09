@@ -4,24 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Trilha Frei Leandro | Plant Humanities</title>
-
-    <!-- Inclui o CSS do Leaflet -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
     <style>
-        /* Estilos gerais */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
             overflow: hidden;
             display: flex;
         }
-        /* Container principal */
         .container {
             display: flex;
             height: 100vh;
             width: 100vw;
         }
-        /* Painel de narrativa à esquerda */
         .narrative-panel {
             width: 40%;
             height: 100vh;
@@ -30,9 +25,10 @@
             background-color: #f8f8f8;
             box-sizing: border-box;
             border-right: 1px solid #ddd;
+            font-size: 18px;
         }
         .narrative-title {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
             margin-bottom: 10px;
         }
@@ -41,13 +37,9 @@
             padding: 10px;
         }
         .narrative-section h2 {
-            font-size: 20px;
+            font-size: 22px;
             margin-bottom: 8px;
         }
-        .narrative-section p {
-            margin: 0;
-        }
-        /* Frame de imagem à direita */
         .image-frame {
             width: 60%;
             height: 100vh;
@@ -73,61 +65,79 @@
     <div class="narrative-panel" id="narrative-panel">
         <div class="narrative-title">Trilha Frei Leandro</div>
         
-        <!-- Introdução à trilha -->
-        <div class="narrative-section">
+        <div class="narrative-section" id="sobre-a-trilha">
             <h2>Sobre a Trilha Frei Leandro</h2>
             <p>Esta Trilha comemora o bicentenário da gestão de Frei Leandro (1824-2024) no Jardim Botânico do Rio de Janeiro. Ela inclui espécies que ele introduziu, manejou, pesquisou, e/ou coletou e que, em sua época, tinham relevância científica, cultural, afetiva e econômica. A trilha se inicia no Portão da Rua Jardim Botânico 920, com a espécie mais representativa de sua gestão, o chá (Camellia sinensis (L.) Kuntze), e passa por diversas espécies dispostas em aleias abertas por Frei Leandro durante a expansão do arboreto.</p>
             <p>Com duração prevista de 2 horas, os visitantes são guiados por um percurso que remonta ao Jardim Botânico de 200 anos atrás, finalizando no cômoro, sob a sombra da jaqueira onde Frei Leandro coordenou a escavação do lago que leva seu nome. Embora Frei Leandro desejasse ser sepultado neste local, seu desejo não foi atendido, mas a trilha termina nesse espaço memorialístico.</p>
         </div>
         
-        <!-- Informações sobre Frei Leandro -->
-        <div class="narrative-section">
+        <div class="narrative-section" id="sobre-frei-leandro">
             <h2>Sobre Frei Leandro</h2>
             <p>Frei Leandro do Sacramento (1779-1829) nasceu Leandro Ferreira da Silva em Recife. Ele estudou filosofia, zoologia e botânica em Olinda e, posteriormente, licenciou-se em Filosofia Natural pela Universidade de Coimbra. No Rio de Janeiro, assumiu a cátedra de Botânica e Agricultura e, em 1824, a direção do Jardim Botânico.</p>
             <p>Reconhecido internacionalmente, Frei Leandro foi correspondente de sociedades científicas e transformou o Jardim Botânico em um espaço aberto à educação científica e visitação pública. Sua gestão marcou o início de uma nova fase no arboreto, com a introdução de diversas espécies e o desenvolvimento de estudos agronômicos.</p>
         </div>
 
         <!-- Espécies Botânicas da Trilha Frei Leandro -->
-        <div class="narrative-section" data-plant-id="1">
-            <h2>1 - Chá (Camellia sinensis)</h2>
+        <div class="narrative-section" id="cha">
+            <h2>Chá (Camellia sinensis)</h2>
             <p>Mudas de chá começaram a ser remetidas de Macau (China) para o Rio de Janeiro em 1810. Frei Leandro documentou o cultivo do chá no JBRJ, publicando em 1825 a "Memória econômica sobre a plantação, cultura, e preparação do chá".</p>
+            <param ve-image="" url="https://upload.wikimedia.org/wikipedia/commons/e/e6/Camellia_sinensis_drawing.jpg" label="Camellia sinensis" caption="Chá no Jardim Botânico" description="Camellia sinensis cultivada no Jardim Botânico" />
         </div>
-        <div class="narrative-section" data-plant-id="2">
-            <h2>2 - Teca (Tectona grandis)</h2>
+
+        <div class="narrative-section" id="teca">
+            <h2>Teca (Tectona grandis)</h2>
             <p>Em 1800, D. João ordenou a introdução da teca no Brasil pela sua superioridade para a construção naval. Frei Leandro ampliou a coleção de teca em 1826, incentivando a criação de bosques de madeira de lei.</p>
+            <param ve-image="" url="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Starr_010304-0485_Tectona_grandis.jpg/1024px-Starr_010304-0485_Tectona_grandis.jpg" label="Tectona grandis" caption="Teca no Jardim Botânico" description="Tectona grandis introduzida para construção naval" />
         </div>
-        <div class="narrative-section" data-plant-id="3">
-            <h2>3 - Fruta-pão (Artocarpus altilis)</h2>
+
+        <div class="narrative-section" id="fruta-pao">
+            <h2>Fruta-pão (Artocarpus altilis)</h2>
             <p>A fruta-pão foi trazida para o Brasil como fonte alimentar para a população de escravizados. Frei Leandro oferecia aos visitantes do Jardim exemplos de pratos preparados com essa fruta, promovendo-a como alimento básico.</p>
+            <param ve-image="" url="https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/6FSkFpeJcrN8npF?file=/&fileId=17944112&x=1927&y=920&a=true&etag=b086dc8c875719c27b005e285a81f023" label="Artocarpus altilis" caption="Fruta-pão no Jardim Botânico" description="Fruta-pão como fonte alimentar" />
         </div>
-        <div class="narrative-section" data-plant-id="4">
-            <h2>4 - Esponja-de-ouro (Stifftia chrysantha)</h2>
+
+        <div class="narrative-section" id="esponja-de-ouro">
+            <h2>Esponja-de-ouro (Stifftia chrysantha)</h2>
             <p>Coletada e nomeada por Frei Leandro, a esponja-de-ouro foi incluída na coleção do Jardim Botânico, refletindo seu interesse pelo paisagismo com plantas nativas brasileiras.</p>
+            <param ve-image="" url="https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/SJEBgty3Zspf2WK?file=/&fileId=17955227&x=1927&y=920&a=true&etag=0b6a4b856343f59f459f79b898da422e" label="Stifftia chrysantha" caption="Esponja-de-ouro no Jardim Botânico" description="Planta ornamental nativa" />
         </div>
-        <div class="narrative-section" data-plant-id="5">
-            <h2>5 - Biribá (Annona mucosa)</h2>
+
+        <div class="narrative-section" id="biriba">
+            <h2>Biribá (Annona mucosa)</h2>
             <p>Conhecida como fruta-do-conde, o biribá foi introduzido por Frei Leandro como uma espécie ornamental e frutífera, representando a valorização das plantas nativas brasileiras no JBRJ.</p>
+            <param ve-image="" url="https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/pBdB65BDrQPeBHX?file=/&fileId=17944122&x=1927&y=920&a=true&etag=096e795f612361b3ff19f0bc417a85bd" label="Annona mucosa" caption="Biribá no Jardim Botânico" description="Espécie frutífera e ornamental" />
         </div>
-        <div class="narrative-section" data-plant-id="6">
-            <h2>6 - Sibipiruna (Cenostigma pluviosum)</h2>
+
+        <div class="narrative-section" id="sibipiruna">
+            <h2>Sibipiruna (Cenostigma pluviosum)</h2>
             <p>Frei Leandro descobriu e nomeou a sibipiruna após observar suas propriedades durante uma chuva, valorizando sua importância ecológica e ornamental no paisagismo urbano.</p>
+            <param ve-image="" url="https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/JkRCiBY5BGmXbar?file=/&fileId=17946713&x=1927&y=920&a=true&etag=23eab4b83e6242cb0615d35154f39796" label="Cenostigma pluviosum" caption="Sibipiruna no Jardim Botânico" description="Planta ornamental e ecológica" />
         </div>
-        <div class="narrative-section" data-plant-id="7">
-            <h2>7 - Abacate (Persea americana)</h2>
+
+        <div class="narrative-section" id="abacate">
+            <h2>Abacate (Persea americana)</h2>
             <p>O abacate foi introduzido por Frei Leandro, que reconheceu suas propriedades medicinais e nutritivas, além do valor cultural e simbólico atribuído pelos povos nativos.</p>
+            <param ve-image="" url="https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/3Wf4Q3Kj4RWDgEs?file=/&fileId=17946734&x=1927&y=920&a=true&etag=0813af235bcf5f414f6154895af48f7a" label="Persea americana" caption="Abacate no Jardim Botânico" description="Planta com valor nutricional e cultural" />
         </div>
-        <div class="narrative-section" data-plant-id="8">
-            <h2>8 - Árvore-do-carvão (Albizia lebbeck)</h2>
+
+        <div class="narrative-section" id="arvore-do-carvao">
+            <h2>Árvore-do-carvão (Albizia lebbeck)</h2>
             <p>Importada para o JBRJ em 1809, a árvore-do-carvão foi usada como fonte de carvão vegetal. Frei Leandro documentou suas propriedades e incentivou seu uso no país.</p>
+            <param ve-image="" url="https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/s8MjLATgZYYNwEL?file=/&fileId=17946774&x=1927&y=920&a=true&etag=7a36eef3361525dc41d6fa10d826ce9e" label="Albizia lebbeck" caption="Árvore-do-carvão no Jardim Botânico" description="Fonte de carvão vegetal" />
         </div>
-        <div class="narrative-section" data-plant-id="9">
-            <h2>9 - Olho-de-boi (Dimocarpus longan)</h2>
+
+        <div class="narrative-section" id="olho-de-boi">
+            <h2>Olho-de-boi (Dimocarpus longan)</h2>
             <p>Também chamada de longana, a alameda de olho-de-boi foi cultivada por Frei Leandro, que valorizava essa espécie por sua beleza e importância cultural.</p>
+            <param ve-image="" url="https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/QNskkTaRdamRAFT?file=/&fileId=17946810&x=1927&y=920&a=true&etag=6b21e8018fa5dda759e9d88e223c800d" label="Dimocarpus longan" caption="Olho-de-boi no Jardim Botânico" description="Espécie valorizada culturalmente" />
         </div>
-        <div class="narrative-section" data-plant-id="10">
-            <h2>10 - Jaqueira (Artocarpus heterophyllus)</h2>
+
+        <div class="narrative-section" id="jaqueira">
+            <h2>Jaqueira (Artocarpus heterophyllus)</h2>
             <p>A jaqueira foi incluída no Jardim Botânico como parte do conjunto paisagístico coordenado por Frei Leandro, sendo um local de trabalho e descanso durante a criação do lago.</p>
+            <param ve-image="" url="https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/TDMYgQJGW7QirAo?file=/&fileId=17946839&x=1927&y=920&a=true&etag=109dd2b574c1d36a21c667334b562643" label="Artocarpus heterophyllus" caption="Jaqueira no Jardim Botânico" description="Símbolo paisagístico do Jardim" />
         </div>
+
     </div>
 
     <!-- Frame da imagem à direita -->
