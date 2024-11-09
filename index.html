@@ -10,142 +10,148 @@
             margin: 0;
             font-family: Arial, sans-serif;
             display: flex;
-            overflow: hidden;
         }
         .container {
             display: flex;
             width: 100vw;
             height: 100vh;
         }
-        /* Painel de narrativas à esquerda */
         .narrative-panel {
             width: 30%;
-            height: 100%;
             overflow-y: auto;
             padding: 20px;
             background-color: #f8f8f8;
-            box-sizing: border-box;
             border-right: 1px solid #ddd;
+            font-size: 18px;
         }
         .narrative-title {
             font-size: 24px;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
-        .narrative-item {
+        .narrative-section {
             margin-bottom: 20px;
             cursor: pointer;
-            padding: 10px;
-            border: 1px solid transparent;
-            transition: border 0.3s;
+            transition: background-color 0.3s;
         }
-        .narrative-item:hover {
-            border: 1px solid #4CAF50;
+        .narrative-section:hover {
+            background-color: #e0e0e0;
         }
-        /* Mapa e visualizador de imagem */
-        .map-frame, .image-frame {
+        .narrative-section h2 {
+            font-size: 20px;
+            margin: 0 0 8px 0;
+        }
+        .display-frame {
             width: 70%;
             height: 100vh;
-            display: none;
             position: relative;
-        }
-        .map-frame.active, .image-frame.active {
-            display: block;
+            display: none;
         }
         #map-viewer, #image-viewer {
             width: 100%;
             height: 100%;
+        }
+        /* Exibir o frame com o mapa ou imagem */
+        .display-frame.visible {
+            display: block;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- Painel de narrativa à esquerda -->
+    <!-- Painel de narrativas à esquerda -->
     <div class="narrative-panel">
-        <div class="narrative-title">Trilha Frei Leandro</div>
-        
-        <!-- Item da narrativa que ativa o mapa -->
-        <div class="narrative-item" data-action="map">
+        <div class="narrative-title">Narrativas</div>
+
+        <!-- Seção da narrativa da trilha -->
+        <div class="narrative-section" id="trilha-narrativa">
             <h2>Trilha Frei Leandro</h2>
-            <p>Clique para visualizar a trilha da Trilha Frei Leandro no mapa.</p>
+            <p>Esta Trilha comemora o bicentenário da gestão de Frei Leandro...</p>
         </div>
 
-        <!-- Exemplo de narrativa que exibe uma imagem -->
-        <div class="narrative-item" data-action="image" data-image-url="https://upload.wikimedia.org/wikipedia/commons/e/e6/Camellia_sinensis_drawing.jpg">
+        <!-- Outras narrativas, como Chá, cada uma com uma imagem -->
+        <div class="narrative-section" id="cha-narrativa" data-image-url="https://upload.wikimedia.org/wikipedia/commons/e/e6/Camellia_sinensis_drawing.jpg">
             <h2>Chá (Camellia sinensis)</h2>
-            <p>Clique para ver a imagem do Chá.</p>
+            <p>Mudas de chá começaram a ser remetidas de Macau...</p>
         </div>
 
-        <!-- Outros itens de narrativa podem ser adicionados aqui com a mesma estrutura -->
+        <!-- Adicione mais narrativas conforme necessário... -->
     </div>
 
-    <!-- Frame do mapa à esquerda -->
-    <div class="map-frame" id="map-container">
+    <!-- Div para exibir o mapa ou imagem à direita -->
+    <div class="display-frame" id="map-container">
         <div id="map-viewer"></div>
     </div>
-
-    <!-- Frame de imagem à direita -->
-    <div class="image-frame" id="image-container">
+    <div class="display-frame" id="image-container">
         <div id="image-viewer"></div>
     </div>
 </div>
 
 <!-- Scripts -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.0/gpx.min.js"></script> <!-- Plugin para carregar GPX -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.0/gpx.min.js"></script>
 <script>
-    // Inicialização do mapa e visualizador de imagens
-    const mapContainer = document.getElementById('map-container');
-    const imageContainer = document.getElementById('image-container');
-
-    const mapViewer = L.map('map-viewer').setView([-22.9674, -43.2291], 16);
+    // Inicializar o mapa
+    var mapViewer = L.map('map-viewer');
+    var gpxLayer; // Camada para a trilha GPX
+    mapViewer.setView([-22.9674, -43.2291], 16); // Posição central inicial
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
         attribution: '© OpenStreetMap contributors'
     }).addTo(mapViewer);
 
-    const imageViewer = L.map('image-viewer', {
+    // Inicializar o visualizador de imagens
+    var imageViewer = L.map('image-viewer', {
         crs: L.CRS.Simple,
         zoomControl: true,
         minZoom: -5,
-        zoomSnap: 0.1,
+        zoomSnap: 0.1
     }).setView([0, 0], 0);
 
-    // Função para carregar o GPX da trilha
-    function loadTrail() {
-        mapViewer.eachLayer(layer => {
-            if (layer instanceof L.GPX) mapViewer.removeLayer(layer); // Remover trilha anterior
-        });
-        new L.GPX("https://raw.githubusercontent.com/seu_usuario/seu_repositorio/main/trilha_frei_leandro.gpx", {
+    // Função para carregar e exibir a trilha GPX
+    function loadGPX() {
+        // Remover qualquer trilha GPX existente
+        if (gpxLayer) mapViewer.removeLayer(gpxLayer);
+
+        // Carregar o arquivo GPX
+        gpxLayer = new L.GPX('https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/trilha_frei_leandro.gpx', {
             async: true,
-            polyline_options: { color: 'blue', opacity: 0.75, weight: 4 }
-        }).on('loaded', e => mapViewer.fitBounds(e.target.getBounds()))
-          .addTo(mapViewer);
+            polyline_options: {
+                color: 'blue',
+                opacity: 0.75,
+                weight: 5,
+                lineCap: 'round'
+            }
+        }).on('loaded', function(e) {
+            mapViewer.fitBounds(e.target.getBounds());
+        }).addTo(mapViewer);
     }
 
-    // Função para exibir uma imagem
+    // Função para exibir imagem com zoom
     function showImage(url) {
-        imageViewer.eachLayer(layer => imageViewer.removeLayer(layer)); // Remover imagem anterior
+        imageViewer.eachLayer(layer => imageViewer.removeLayer(layer));
         L.imageOverlay(url, [[-100, -100], [100, 100]]).addTo(imageViewer);
         imageViewer.fitBounds([[-100, -100], [100, 100]]);
     }
 
-    // Evento de clique em narrativas
-    document.querySelectorAll('.narrative-item').forEach(item => {
-        item.addEventListener('click', function() {
-            const action = this.getAttribute('data-action');
-            if (action === 'map') {
-                loadTrail();
-                mapContainer.classList.add('active');
-                imageContainer.classList.remove('active');
-            } else if (action === 'image') {
-                const imageUrl = this.getAttribute('data-image-url');
-                if (imageUrl) {
-                    showImage(imageUrl);
-                    imageContainer.classList.add('active');
-                    mapContainer.classList.remove('active');
-                }
+    // Alternar entre exibir o mapa e a imagem
+    const mapContainer = document.getElementById('map-container');
+    const imageContainer = document.getElementById('image-container');
+
+    document.getElementById('trilha-narrativa').addEventListener('click', () => {
+        imageContainer.classList.remove('visible'); // Esconde a imagem
+        mapContainer.classList.add('visible'); // Mostra o mapa
+        loadGPX(); // Carrega a trilha GPX
+    });
+
+    document.querySelectorAll('.narrative-section').forEach(section => {
+        section.addEventListener('click', function() {
+            const imageUrl = this.getAttribute('data-image-url');
+            if (imageUrl) {
+                mapContainer.classList.remove('visible'); // Esconde o mapa
+                imageContainer.classList.add('visible'); // Mostra a imagem
+                showImage(imageUrl); // Exibe a imagem com zoom
             }
         });
     });
