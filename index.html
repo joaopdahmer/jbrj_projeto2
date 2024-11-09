@@ -64,15 +64,6 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             transition: opacity 0.5s;
         }
-        /* Mapa abaixo da narrativa */
-        #map {
-            width: 100%;
-            height: 100vh;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
     </style>
 </head>
 <body>
@@ -81,46 +72,47 @@
     <!-- Painel de narrativa à esquerda -->
     <div class="narrative-panel" id="narrative-panel">
         <div class="narrative-title">Trilha Frei Leandro</div>
-        <!-- Seções de narrativa, cada uma com uma planta -->
+        
+        <!-- Seções de narrativa para cada planta -->
         <div class="narrative-section" data-plant-id="1">
             <h2>Chá (Camellia sinensis)</h2>
-            <p>Frei Leandro introduziu o chá no Brasil, promovendo seu cultivo local e contribuindo para a economia. Ele aclimatou a <em>Camellia sinensis</em> no Jardim Botânico, incentivando o cultivo da planta como importante recurso econômico e cultural.</p>
+            <p>Mudas de chá começaram a ser remetidas de Macau (China) para o Rio de Janeiro em 1810. Frei Leandro avaliou e documentou o cultivo do chá no Jardim Botânico, incentivando o desenvolvimento econômico dessa cultura.</p>
         </div>
         <div class="narrative-section" data-plant-id="2">
             <h2>Teca (Tectona grandis)</h2>
-            <p>A teca foi plantada para estudar seu potencial uso na indústria madeireira devido à sua madeira durável. Frei Leandro promoveu o cultivo da teca para produção sustentável de madeira de alta qualidade.</p>
+            <p>Introduzida em 1800, a teca era vista como essencial para a construção naval. Frei Leandro aumentou a diversidade genética da teca no Jardim Botânico em 1826, fomentando a criação de bosques com madeiras de lei.</p>
         </div>
         <div class="narrative-section" data-plant-id="3">
             <h2>Fruta-pão (Artocarpus altilis)</h2>
-            <p>A fruta-pão foi cultivada como alternativa alimentar básica, visando melhorar a nutrição da população. Frei Leandro reconheceu a fruta-pão como uma solução viável para aumentar a segurança alimentar.</p>
+            <p>A fruta-pão foi trazida ao Brasil para sustentar a crescente população de escravizados. Os frutos nutritivos tornaram-se uma fonte básica de alimentação, com variadas preparações culinárias.</p>
         </div>
         <div class="narrative-section" data-plant-id="4">
-            <h2>Esponja-de-ouro (Senna spectabilis)</h2>
-            <p>Esponja-de-ouro foi estudada por suas flores vibrantes e usos medicinais potenciais. Ele cultivou a planta para fins ornamentais e exploração de propriedades medicinais.</p>
+            <h2>Esponja-de-ouro (Stifftia chrysantha)</h2>
+            <p>Coletada, estudada e nomeada por Frei Leandro, esta planta reflete seu interesse pela flora brasileira e pelo paisagismo com espécies nativas.</p>
         </div>
         <div class="narrative-section" data-plant-id="5">
-            <h2>Biribá (Rollinia mucosa)</h2>
-            <p>Biribá foi apreciada por seus frutos saborosos e seu potencial agrícola. Frei Leandro incentivou o cultivo do biribá como recurso alimentar de alto rendimento.</p>
+            <h2>Biribá (Annona mucosa)</h2>
+            <p>Conhecida também como fruta-do-conde, o biribá foi uma das espécies nativas brasileiras que Frei Leandro introduziu no Jardim Botânico, valorizando-a como uma planta ornamental e frutífera.</p>
         </div>
         <div class="narrative-section" data-plant-id="6">
-            <h2>Sibipiruna (Caesalpinia peltophoroides)</h2>
-            <p>Sibipiruna foi promovida para uso ornamental na arborização urbana e conservação ambiental. Ele reconheceu seu valor paisagístico para cidades brasileiras.</p>
+            <h2>Sibipiruna (Cenostigma pluviosum)</h2>
+            <p>Frei Leandro nomeou a sibipiruna após observá-la durante uma chuva, atribuindo-lhe um valor paisagístico e ecológico na composição das áreas verdes urbanas.</p>
         </div>
         <div class="narrative-section" data-plant-id="7">
             <h2>Abacate (Persea americana)</h2>
-            <p>Abacate foi estudado por seu valor nutricional e potencial econômico no mercado agrícola. Frei Leandro incentivou o cultivo do abacate em várias regiões do Brasil.</p>
+            <p>Introduzido no Jardim Botânico por Frei Leandro, o abacate foi apreciado não só pelo seu valor nutritivo, mas também pelas suas propriedades medicinais e simbolismo cultural.</p>
         </div>
         <div class="narrative-section" data-plant-id="8">
-            <h2>Árvore-do-carvão (Calliandra brevipes)</h2>
-            <p>Árvore-do-carvão foi explorada como fonte sustentável de combustível e práticas energéticas. Ele cultivou a planta como alternativa de produção sustentável de carvão vegetal.</p>
+            <h2>Árvore-do-carvão (Albizia lebbeck)</h2>
+            <p>A árvore-do-carvão, trazida ao Jardim Botânico em 1809, foi documentada por Frei Leandro por suas propriedades e versatilidade na produção de carvão vegetal e madeira.</p>
         </div>
         <div class="narrative-section" data-plant-id="9">
-            <h2>Olho-de-boi (Machaerium acutifolium)</h2>
-            <p>Olho-de-boi foi pesquisado por suas sementes ornamentais e propriedades medicinais. Frei Leandro estudou seus usos medicinais e seu potencial econômico.</p>
+            <h2>Olho-de-boi (Dimocarpus longan)</h2>
+            <p>Também conhecida como longana, a alameda de olho-de-boi foi cultivada por Frei Leandro, que valorizava essa espécie asiática por sua beleza e valor histórico.</p>
         </div>
         <div class="narrative-section" data-plant-id="10">
             <h2>Jaqueira (Artocarpus heterophyllus)</h2>
-            <p>Jaqueira foi introduzida como valiosa fonte alimentar e cultural. Ele incentivou a disseminação da jaca devido a seu alto valor nutritivo.</p>
+            <p>A jaqueira, presente no conjunto paisagístico projetado por Frei Leandro, tornou-se um símbolo do Jardim Botânico e foi utilizada para sombra durante o trabalho de escavação do lago.</p>
         </div>
     </div>
 
@@ -144,7 +136,7 @@
         maxZoom: 19
     }).addTo(map);
 
-    // Dados das plantas
+    // Dados das imagens das plantas
     const plantImages = {
         1: 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Camellia_sinensis_drawing.jpg',
         2: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Starr_010304-0485_Tectona_grandis.jpg/1024px-Starr_010304-0485_Tectona_grandis.jpg',
