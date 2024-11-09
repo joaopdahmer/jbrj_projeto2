@@ -200,9 +200,7 @@
             }
         });
     });
-</script>
 
-<!-- Scripts -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
     // Inicialização do mapa OpenStreetMap focado no Jardim Botânico do Rio de Janeiro
@@ -213,6 +211,15 @@
         maxZoom: 18,
         attribution: '© OpenStreetMap contributors'
     }).addTo(mapViewer);
+
+    // Evento de hover para cada narrativa
+    document.querySelectorAll('.narrative-section').forEach(section => {
+        section.addEventListener('mouseenter', function() {
+            const locationId = this.getAttribute('id');
+            if (narrativeLocations[locationId]) {
+                const { lat, lng, label } = narrativeLocations[locationId];
+                focusMapOn(lat, lng, label);
+            }
 </script>
 
 </body>
