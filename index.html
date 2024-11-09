@@ -14,48 +14,46 @@
         }
         .container {
             display: flex;
-            height: 100vh;
             width: 100vw;
+            height: 100vh;
         }
+        /* Painel de narrativas à esquerda */
         .narrative-panel {
-            width: 40%;
-            padding: 20px;
+            width: 30%;
+            height: 100%;
             overflow-y: auto;
+            padding: 20px;
             background-color: #f8f8f8;
             box-sizing: border-box;
             border-right: 1px solid #ddd;
         }
         .narrative-title {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: bold;
             margin-bottom: 10px;
         }
-        .narrative-section {
+        .narrative-item {
             margin-bottom: 20px;
-            padding: 10px;
             cursor: pointer;
-            transition: background 0.3s;
+            padding: 10px;
+            border: 1px solid transparent;
+            transition: border 0.3s;
         }
-        .narrative-section:hover {
-            background-color: #e0e0e0;
+        .narrative-item:hover {
+            border: 1px solid #4CAF50;
         }
-        .narrative-section h2 {
-            font-size: 22px;
-            margin: 0 0 5px;
-        }
-        .display-frame {
-            width: 60%;
+        /* Mapa e visualizador de imagem */
+        .map-frame, .image-frame {
+            display: none;
+            width: 70%;
             height: 100vh;
             position: relative;
-            display: none;
-            background-color: #fff;
         }
         #map-viewer, #image-viewer {
             width: 100%;
             height: 100%;
-            display: none;
         }
-        #map-viewer.active, #image-viewer.active {
+        .map-frame.active, .image-frame.active {
             display: block;
         }
     </style>
@@ -67,70 +65,87 @@
     <div class="narrative-panel">
         <div class="narrative-title">Trilha Frei Leandro</div>
         
-        <!-- Narrativa principal com ação de abrir o mapa -->
-        <div class="narrative-section" id="trilha-frei-leandro" data-type="map">
+        <!-- Item da narrativa que ativa o mapa -->
+        <div class="narrative-item" data-action="map">
             <h2>Trilha Frei Leandro</h2>
-            <p>Esta trilha comemora o bicentenário da gestão de Frei Leandro (1824-2024) no Jardim Botânico do Rio de Janeiro...</p>
-        </div>
-        
-        <!-- Exemplo de narrativa de planta com ação de abrir imagem -->
-        <div class="narrative-section" id="cha" data-type="image" data-image-url="https://upload.wikimedia.org/wikipedia/commons/e/e6/Camellia_sinensis_drawing.jpg">
-            <h2>Chá (Camellia sinensis)</h2>
-            <p>Mudas de chá começaram a ser remetidas de Macau...</p>
+            <p>Clique para visualizar a trilha da Trilha Frei Leandro no mapa.</p>
         </div>
 
-        <!-- Outras narrativas podem seguir o mesmo padrão -->
+        <!-- Exemplo de narrativa que exibe uma imagem -->
+        <div class="narrative-item" data-action="image" data-image-url="https://upload.wikimedia.org/wikipedia/commons/e/e6/Camellia_sinensis_drawing.jpg">
+            <h2>Chá (Camellia sinensis)</h2>
+            <p>Clique para ver a imagem do Chá.</p>
+        </div>
+
+        <!-- Outros itens de narrativa podem ser adicionados aqui com a mesma estrutura -->
     </div>
 
-    <!-- Área de exibição à direita -->
-    <div class="display-frame" id="display-frame">
-        <!-- Frame do mapa -->
+    <!-- Frame do mapa à esquerda -->
+    <div class="map-frame" id="map-container">
         <div id="map-viewer"></div>
-        <!-- Frame da imagem -->
+    </div>
+
+    <!-- Frame de imagem à direita -->
+    <div class="image-frame" id="image-container">
         <div id="image-viewer"></div>
     </div>
 </div>
 
 <!-- Scripts -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.0/gpx.min.js"></script> <!-- Plugin para carregar GPX -->
 <script>
-    // Inicialização do mapa para OpenStreetMap no elemento 'map-viewer'
-    var mapViewer = L.map('map-viewer').setView([-22.9674, -43.2291], 16);
+    // Inicialização do mapa e visualizador de imagens
+    const mapContainer = document.getElementById('map-container');
+    const imageContainer = document.getElementById('image-container');
+
+    const mapViewer = L.map('map-viewer').setView([-22.9674, -43.2291], 16);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
         attribution: '© OpenStreetMap contributors'
     }).addTo(mapViewer);
 
-    // Seleciona o contêiner de exibição e frames de mapa e imagem
-    const displayFrame = document.getElementById('display-frame');
-    const mapFrame = document.getElementById('map-viewer');
-    const imageFrame = document.getElementById('image-viewer');
+    const imageViewer = L.map('image-viewer', {
+        crs: L.CRS.Simple,
+        zoomControl: true,
+        minZoom: -5,
+        zoomSnap: 0.1,
+    }).setView([0, 0], 0);
 
-    // Função para exibir o mapa
-    function showMap() {
-        displayFrame.style.display = 'block';
-        mapFrame.classList.add('active');
-        imageFrame.classList.remove('active');
+    // Função para carregar o GPX da trilha
+    function loadTrail() {
+        mapViewer.eachLayer(layer => {
+            if (layer instanceof L.GPX) mapViewer.removeLayer(layer); // Remover trilha anterior
+        });
+        new L.GPX("https://raw.githubusercontent.com/seu_usuario/seu_repositorio/main/trilha_frei_leandro.gpx", {
+            async: true,
+            polyline_options: { color: 'blue', opacity: 0.75, weight: 4 }
+        }).on('loaded', e => mapViewer.fitBounds(e.target.getBounds()))
+          .addTo(mapViewer);
     }
 
     // Função para exibir uma imagem
     function showImage(url) {
-        displayFrame.style.display = 'block';
-        imageFrame.style.backgroundImage = `url('${url}')`;
-        imageFrame.classList.add('active');
-        mapFrame.classList.remove('active');
+        imageViewer.eachLayer(layer => imageViewer.removeLayer(layer)); // Remover imagem anterior
+        L.imageOverlay(url, [[-100, -100], [100, 100]]).addTo(imageViewer);
+        imageViewer.fitBounds([[-100, -100], [100, 100]]);
     }
 
-    // Adiciona evento de clique para cada narrativa
-    document.querySelectorAll('.narrative-section').forEach(section => {
-        section.addEventListener('click', () => {
-            const type = section.getAttribute('data-type');
-            
-            if (type === 'map') {
-                showMap(); // Exibe o mapa se a narrativa for do tipo "map"
-            } else if (type === 'image') {
-                const imageUrl = section.getAttribute('data-image-url');
-                showImage(imageUrl); // Exibe a imagem se a narrativa for do tipo "image"
+    // Evento de clique em narrativas
+    document.querySelectorAll('.narrative-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const action = this.getAttribute('data-action');
+            if (action === 'map') {
+                loadTrail();
+                mapContainer.classList.add('active');
+                imageContainer.classList.remove('active');
+            } else if (action === 'image') {
+                const imageUrl = this.getAttribute('data-image-url');
+                if (imageUrl) {
+                    showImage(imageUrl);
+                    imageContainer.classList.add('active');
+                    mapContainer.classList.remove('active');
+                }
             }
         });
     });
