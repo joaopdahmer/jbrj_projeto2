@@ -10,16 +10,18 @@
             font-family: Arial, sans-serif;
             display: flex;
             height: 100vh;
+            overflow: hidden;
         }
         #narrativas {
-            width: 25%;
+            width: 30%;
             padding: 20px;
             background-color: #f0f0f0;
             box-sizing: border-box;
             overflow-y: auto;
+            border-right: 1px solid #ddd;
         }
         #conteudo {
-            width: 75%;
+            width: 70%;
             position: relative;
             overflow: hidden;
         }
@@ -30,25 +32,42 @@
             width: 100%;
             height: 100%;
         }
-        button {
-            width: 100%;
-            padding: 15px;
-            margin-bottom: 10px;
-            font-size: 16px;
-            cursor: pointer;
-        }
         .narrativaTexto {
-            padding: 20px;
-            overflow-y: auto;
+            padding: 15px;
+            margin-bottom: 5px;
+            background-color: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .narrativaTexto:hover {
+            background-color: #e0e0e0;
+        }
+        h3 {
+            font-size: 18px;
+            margin-top: 0;
         }
     </style>
 </head>
 <body>
     <div id="narrativas">
-        <button onclick="mostrarNarrativa('trilha')">Trilha Frei Leandro</button>
-        <button onclick="mostrarNarrativa('imagem')">Fotografia de Frei Leandro</button>
-        <button onclick="mostrarNarrativa('osm')">Mapa OSM do Jardim Botânico</button>
+        <h3>Introdução</h3>
+        <div class="narrativaTexto" onclick="mostrarOSM()" onmouseover="mostrarOSM()">Trilha Frei Leandro</div>
+        <div class="narrativaTexto" onclick="mostrarOSM()" onmouseover="mostrarOSM()">Sobre Frei Leandro</div>
+
+        <h3>Plantas</h3>
+        <div class="narrativaTexto" onclick="mostrarPlantaImagem('camellia')" onmouseover="mostrarPlantaImagem('camellia')">Chá - Camellia sinensis</div>
+        <div class="narrativaTexto" onclick="mostrarPlantaImagem('tectona')" onmouseover="mostrarPlantaImagem('tectona')">Teca - Tectona grandis</div>
+        <div class="narrativaTexto" onclick="mostrarPlantaImagem('artocarpus')" onmouseover="mostrarPlantaImagem('artocarpus')">Fruta-Pão - Artocarpus altilis</div>
+        <div class="narrativaTexto" onclick="mostrarPlantaImagem('stifftia')" onmouseover="mostrarPlantaImagem('stifftia')">Esponja-de-Ouro - Stifftia chrysantha</div>
+        <div class="narrativaTexto" onclick="mostrarPlantaImagem('annona')" onmouseover="mostrarPlantaImagem('annona')">Biribá - Annona mucosa</div>
+        <div class="narrativaTexto" onclick="mostrarPlantaImagem('cenostigma')" onmouseover="mostrarPlantaImagem('cenostigma')">Sibipiruna - Cenostigma pluviosum</div>
+        <div class="narrativaTexto" onclick="mostrarPlantaImagem('persea')" onmouseover="mostrarPlantaImagem('persea')">Abacate - Persea americana</div>
+        <div class="narrativaTexto" onclick="mostrarPlantaImagem('albizia')" onmouseover="mostrarPlantaImagem('albizia')">Árvore-do-Carvão - Albizia lebbeck</div>
+        <div class="narrativaTexto" onclick="mostrarPlantaImagem('dimocarpus')" onmouseover="mostrarPlantaImagem('dimocarpus')">Olho-de-Boi - Dimocarpus longan</div>
+        <div class="narrativaTexto" onclick="mostrarPlantaImagem('artocarpus2')" onmouseover="mostrarPlantaImagem('artocarpus2')">Jaqueira - Artocarpus heterophyllus</div>
     </div>
+
     <div id="conteudo">
         <!-- O conteúdo será carregado dinamicamente aqui -->
     </div>
@@ -63,43 +82,25 @@
             conteudoDiv.innerHTML = '';
         }
 
-        function mostrarNarrativa(narrativa) {
+        function mostrarOSM() {
             limparConteudo();
+            const osmDiv = document.createElement('div');
+            osmDiv.id = 'osmMap';
+            conteudoDiv.appendChild(osmDiv);
 
-            if (narrativa === 'trilha') {
-                mostrarMapaComTrilha();
-            } else if (narrativa === 'imagem') {
-                mostrarImagem();
-            } else if (narrativa === 'osm') {
-                mostrarOSM();
-            }
-        }
-
-        function mostrarMapaComTrilha() {
-            const mapaDiv = document.createElement('div');
-            mapaDiv.id = 'mapa';
-            conteudoDiv.appendChild(mapaDiv);
-
-            const mapa = L.map('mapa').setView([-22.9681, -43.2254], 15);
-
+            const osmMap = L.map('osmMap').setView([-22.9681, -43.2254], 15);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; OpenStreetMap contributors'
-            }).addTo(mapa);
+            }).addTo(osmMap);
 
             const gpx = 'https://raw.githubusercontent.com/joaopdahmer/jbrj_projeto2/main/trilha_frei_leandro.gpx';
-            new L.GPX(gpx, {
-                async: true,
-                marker_options: {
-                    startIconUrl: '',
-                    endIconUrl: '',
-                    shadowUrl: ''
-                }
-            }).on('loaded', function(e) {
-                mapa.fitBounds(e.target.getBounds());
-            }).addTo(mapa);
+            new L.GPX(gpx, { async: true }).on('loaded', function(e) {
+                osmMap.fitBounds(e.target.getBounds());
+            }).addTo(osmMap);
         }
 
-        function mostrarImagem() {
+        function mostrarPlantaImagem(planta) {
+            limparConteudo();
             const imagemDiv = document.createElement('div');
             imagemDiv.id = 'imagem';
             conteudoDiv.appendChild(imagemDiv);
@@ -109,21 +110,9 @@
                 prefixUrl: "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/2.4.2/images/",
                 tileSources: {
                     type: 'image',
-                    url: 'https://example.com/imagem_frei_leandro.jpg' // Substitua pelo link da imagem
+                    url: `https://example.com/${planta}.jpg` // Substitua pelo link específico da imagem de cada planta
                 }
             });
-        }
-
-        function mostrarOSM() {
-            const osmDiv = document.createElement('div');
-            osmDiv.id = 'osmMap';
-            conteudoDiv.appendChild(osmDiv);
-
-            const osmMap = L.map('osmMap').setView([-22.9681, -43.2254], 15);
-
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; OpenStreetMap contributors'
-            }).addTo(osmMap);
         }
     </script>
 </body>
