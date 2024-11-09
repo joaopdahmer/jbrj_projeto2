@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Trilha Frei Leandro | Plant Humanities</title>
+    <title>Trilha Frei Leandro | Jardim Botânico do Rio de Janeiro</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
     <style>
         body {
@@ -47,16 +47,16 @@
             padding: 8px;
             cursor: pointer;
         }
-        /* Visualizador de imagem à direita */
-        .image-frame {
+        /* Visualizador de mapa à direita */
+        .map-frame {
             width: 60%;
             height: 100vh;
             background-color: #fff;
             box-sizing: border-box;
             position: relative;
         }
-        /* Estilos para o visualizador de imagens */
-        #image-viewer {
+        /* Estilos para o visualizador de mapa */
+        #map-viewer {
             width: 100%;
             height: 100%;
         }
@@ -129,33 +129,19 @@
 <!-- Scripts -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
-    // Configuração do visualizador de imagens usando Leaflet para zoom e pan
-    var imageViewer = L.map('image-viewer', {
-        crs: L.CRS.Simple,
-        zoomControl: true,
-        minZoom: -5,
-        zoomSnap: 0.1,
-    }).setView([0, 0], 0);
+    // Inicialização do mapa OpenStreetMap para a Trilha Frei Leandro
+    var mapViewer = L.map('map-viewer').setView([-22.968, -43.223], 16);
 
-    // Função para exibir imagem com zoom e pan
-    function showImage(url) {
-        L.imageOverlay(url, [[-100, -100], [100, 100]]).addTo(imageViewer);
-        imageViewer.fitBounds([[-100, -100], [100, 100]]);
-    }
+    // Adicionar a camada de tiles do OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(mapViewer);
 
-    // Evento de hover para cada narrativa
-    document.querySelectorAll('.narrative-section').forEach(section => {
-        section.addEventListener('mouseenter', function() {
-            const imageUrl = this.getAttribute('data-image-url');
-            if (imageUrl) {
-                imageViewer.eachLayer(layer => {
-                    imageViewer.removeLayer(layer);
-                });
-                showImage(imageUrl);
-            }
-        });
-    });
+    // Adicionar pontos de interesse (plantações de Frei Leandro) ao mapa, se desejar
+
 </script>
 
 </body>
 </html>
+
