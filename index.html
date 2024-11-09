@@ -2,31 +2,24 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Trilha Frei Leandro | Jardim Botânico do Rio de Janeiro</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilha Frei Leandro | Narrativas</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
         body {
+            display: flex;
             margin: 0;
             font-family: Arial, sans-serif;
-            overflow: hidden;
-            display: flex;
             height: 100vh;
-            width: 100vw;
+            overflow: hidden;
         }
         .narrative-panel {
-            width: 30%;
-            height: 100%;
-            overflow-y: auto;
-            padding: 20px;
+            width: 35%;
             background-color: #f8f8f8;
-            box-sizing: border-box;
+            padding: 20px;
+            overflow-y: auto;
             border-right: 1px solid #ddd;
-        }
-        .narrative-title {
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 10px;
+            box-sizing: border-box;
         }
         .narrative-section {
             margin-bottom: 20px;
@@ -37,13 +30,24 @@
         .narrative-section:hover {
             background-color: #e0e0e0;
         }
-        .display-frame {
-            width: 70%; /* Ajustado para ocupar mais de metade da tela */
-            height: 100%;
-            display: none;
-            position: relative;
+        .narrative-section h2 {
+            margin: 0;
+            font-size: 20px;
         }
-        #map-viewer, #image-viewer {
+        .viewer {
+            width: 65%;
+            height: 100%;
+            position: relative;
+            display: none; /* Oculto por padrão */
+        }
+        .map-container,
+        .image-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            display: none;
+        }
+        #image-viewer {
             width: 100%;
             height: 100%;
         }
@@ -51,105 +55,86 @@
 </head>
 <body>
 
-<div class="narrative-panel" id="narrative-panel">
-    <div class="narrative-title">Trilha Frei Leandro</div>
-    
-    <!-- Narrativa com ação para abrir o mapa -->
-    <div class="narrative-section" data-action="map">
+<div class="narrative-panel">
+    <div class="narrative-section" data-type="map">
         <h2>Trilha Frei Leandro</h2>
-        <p>Comemoração do bicentenário da gestão de Frei Leandro...</p>
+        <p>Visualize o percurso da Trilha Frei Leandro no Jardim Botânico...</p>
     </div>
-
-    <!-- Narrativa com ação para abrir uma imagem -->
-    <div class="narrative-section" data-action="image" data-image-url="https://upload.wikimedia.org/wikipedia/commons/e/e6/Camellia_sinensis_drawing.jpg">
+    <div class="narrative-section" data-type="image" data-image-url="https://upload.wikimedia.org/wikipedia/commons/e/e6/Camellia_sinensis_drawing.jpg">
         <h2>Chá (Camellia sinensis)</h2>
-        <p>Introdução da planta de chá...</p>
+        <p>Veja uma ilustração botânica da planta do chá...</p>
     </div>
-
-    <!-- Outras narrativas seguem o mesmo padrão... -->
+    <!-- Adicione outras narrativas aqui com a mesma estrutura -->
 </div>
 
-<!-- Frame para o mapa e imagens -->
-<div class="display-frame" id="map-container">
-    <div id="map-viewer"></div>
-</div>
-<div class="display-frame" id="image-container">
-    <div id="image-viewer"></div>
+<div class="viewer">
+    <!-- Contêiner do Mapa -->
+    <div id="map-container" class="map-container"></div>
+    
+    <!-- Contêiner da Imagem -->
+    <div id="image-container" class="image-container">
+        <div id="image-viewer"></div>
+    </div>
 </div>
 
 <!-- Scripts -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.0/gpx.min.js"></script>
-
 <script>
-    // Inicializa o mapa, mas mantém oculto até que uma narrativa o acione
-    var mapViewer = L.map('map-viewer', { zoomControl: false }).setView([-22.9674, -43.2291], 16);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 18,
-        attribution: '© OpenStreetMap contributors'
-    }).addTo(mapViewer);
-    var gpxLayer;
+    const viewer = document.querySelector('.viewer');
+    const mapContainer = document.getElementById('map-container');
+    const imageContainer = document.getElementById('image-container');
 
-    // Inicialização do visualizador de imagens
-    var imageViewer = L.map('image-viewer', {
-        crs: L.CRS.Simple,
-        zoomControl: true,
-        minZoom: -5,
-        zoomSnap: 0.1,
-    }).setView([0, 0], 0);
+    // Inicializar o mapa e a trilha GPX
+    let map;
+    function initializeMap() {
+        if (!map) {
+            map = L.map('map-container').setView([-22.9674, -43.2291], 16);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
 
-    // Função para exibir o mapa com a trilha GPX
-    function showMap() {
-        document.getElementById('map-container').style.display = 'block';
-        document.getElementById('image-container').style.display = 'none';
-
-        // Remove qualquer trilha anterior e adiciona a nova trilha GPX
-        if (gpxLayer) mapViewer.removeLayer(gpxLayer);
-        gpxLayer = new L.GPX("https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/trilha_frei_leandro.gpx", {
-            async: true,
-            marker_options: {
-                startIconUrl: null,
-                endIconUrl: null,
-                shadowUrl: null
-            },
-            polyline_options: {
-                color: 'blue',
-                opacity: 0.75,
-                weight: 5,
-                lineCap: 'round'
-            }
-        }).on('loaded', function(e) {
-            mapViewer.fitBounds(e.target.getBounds());
-        }).addTo(mapViewer);
+            // Adicionar a trilha GPX
+            new L.GPX('https://raw.githubusercontent.com/joaopdahmer/JBRJ_TESTE2/main/trilha_frei_leandro.gpx', {
+                async: true,
+                polyline_options: { color: 'blue', opacity: 0.75, weight: 5 }
+            }).addTo(map);
+        }
     }
 
-    // Função para exibir a imagem com zoom e pan
-    function showImage(url) {
-        document.getElementById('map-container').style.display = 'none';
-        document.getElementById('image-container').style.display = 'block';
+    // Inicializar o visualizador de imagem
+    const imageViewer = L.map('image-viewer', {
+        crs: L.CRS.Simple,
+        minZoom: -4,
+        zoomControl: true,
+        zoomSnap: 0.1
+    }).setView([0, 0], 0);
 
+    function showImage(url) {
         imageViewer.eachLayer(layer => imageViewer.removeLayer(layer));
         L.imageOverlay(url, [[-100, -100], [100, 100]]).addTo(imageViewer);
         imageViewer.fitBounds([[-100, -100], [100, 100]]);
     }
 
-    // Função para ocultar todas as janelas abertas
-    function closeAllFrames() {
-        document.getElementById('map-container').style.display = 'none';
-        document.getElementById('image-container').style.display = 'none';
-    }
-
-    // Adiciona eventos de clique para cada narrativa
+    // Alterna entre mapa e imagem ao clicar na narrativa
     document.querySelectorAll('.narrative-section').forEach(section => {
         section.addEventListener('click', function() {
-            const action = this.getAttribute('data-action');
-            closeAllFrames(); // Fecha qualquer frame aberto
+            const type = this.getAttribute('data-type');
+            const imageUrl = this.getAttribute('data-image-url');
 
-            if (action === 'map') {
-                showMap();
-            } else if (action === 'image') {
-                const imageUrl = this.getAttribute('data-image-url');
+            // Esconde visualizações anteriores
+            mapContainer.style.display = 'none';
+            imageContainer.style.display = 'none';
+            viewer.style.display = 'none';
+
+            if (type === 'map') {
+                initializeMap();
+                mapContainer.style.display = 'block';
+                viewer.style.display = 'block';
+            } else if (type === 'image' && imageUrl) {
                 showImage(imageUrl);
+                imageContainer.style.display = 'block';
+                viewer.style.display = 'block';
             }
         });
     });
