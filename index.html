@@ -37,10 +37,6 @@
             font-size: 16px;
             cursor: pointer;
         }
-        #imagem, #mapa, #osmMap {
-            width: 100%;
-            height: 100%;
-        }
         .narrativaTexto {
             padding: 20px;
             overflow-y: auto;
@@ -50,8 +46,8 @@
 <body>
     <div id="narrativas">
         <button onclick="mostrarNarrativa('trilha')">Trilha Frei Leandro</button>
-        <button onclick="mostrarNarrativa('sobre')">Sobre Frei Leandro</button>
-        <button onclick="mostrarNarrativa('especies')">Espécies Botânicas da Trilha Frei Leandro</button>
+        <button onclick="mostrarNarrativa('imagem')">Fotografia de Frei Leandro</button>
+        <button onclick="mostrarNarrativa('osm')">Mapa OSM do Jardim Botânico</button>
     </div>
     <div id="conteudo">
         <!-- O conteúdo será carregado dinamicamente aqui -->
@@ -72,11 +68,10 @@
 
             if (narrativa === 'trilha') {
                 mostrarMapaComTrilha();
-            } else if (narrativa === 'sobre') {
-                mostrarInformacao(`Frei Leandro do Sacramento (1779-1829) nasceu Leandro Ferreira da Silva em Recife... 
-                    Estendeu seu ensino ao Passeio Público, onde dispunha de um pequeno jardim didático...`);
-            } else if (narrativa === 'especies') {
-                mostrarEspecies();
+            } else if (narrativa === 'imagem') {
+                mostrarImagem();
+            } else if (narrativa === 'osm') {
+                mostrarOSM();
             }
         }
 
@@ -104,32 +99,31 @@
             }).addTo(mapa);
         }
 
-        function mostrarInformacao(texto) {
-            const textoDiv = document.createElement('div');
-            textoDiv.className = 'narrativaTexto';
-            textoDiv.innerHTML = texto;
-            conteudoDiv.appendChild(textoDiv);
+        function mostrarImagem() {
+            const imagemDiv = document.createElement('div');
+            imagemDiv.id = 'imagem';
+            conteudoDiv.appendChild(imagemDiv);
+
+            OpenSeadragon({
+                id: "imagem",
+                prefixUrl: "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/2.4.2/images/",
+                tileSources: {
+                    type: 'image',
+                    url: 'https://example.com/imagem_frei_leandro.jpg' // Substitua pelo link da imagem
+                }
+            });
         }
 
-        function mostrarEspecies() {
-            const especiesDiv = document.createElement('div');
-            especiesDiv.className = 'narrativaTexto';
-            especiesDiv.innerHTML = `
-                <h3>Espécies Botânicas da Trilha Frei Leandro</h3>
-                <ul>
-                    <li><strong>Chá</strong> (Camellia sinensis)</li>
-                    <li><strong>Teca</strong> (Tectona grandis)</li>
-                    <li><strong>Fruta-Pão</strong> (Artocarpus altilis)</li>
-                    <li><strong>Esponja-de-Ouro</strong> (Stifftia chrysantha)</li>
-                    <li><strong>Biribá</strong> (Annona mucosa)</li>
-                    <li><strong>Sibipiruna</strong> (Cenostigma pluviosum)</li>
-                    <li><strong>Abacate</strong> (Persea americana)</li>
-                    <li><strong>Árvore-do-Carvão</strong> (Albizia lebbeck)</li>
-                    <li><strong>Olho-de-Boi</strong> (Dimocarpus longan)</li>
-                    <li><strong>Jaqueira</strong> (Artocarpus heterophyllus)</li>
-                </ul>
-            `;
-            conteudoDiv.appendChild(especiesDiv);
+        function mostrarOSM() {
+            const osmDiv = document.createElement('div');
+            osmDiv.id = 'osmMap';
+            conteudoDiv.appendChild(osmDiv);
+
+            const osmMap = L.map('osmMap').setView([-22.9681, -43.2254], 15);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(osmMap);
         }
     </script>
 </body>
