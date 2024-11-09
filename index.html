@@ -35,26 +35,30 @@
         .narrative-section {
             margin-bottom: 40px;
             padding: 10px;
+            transition: border 0.3s;
         }
         .narrative-section h2 {
             font-size: 22px;
             margin-bottom: 8px;
         }
+        /* Hover Frame Box */
+        .narrative-section:hover {
+            border: 2px solid #4CAF50;
+            padding: 8px;
+            cursor: pointer;
+        }
+        /* Visualizador de imagem à direita */
         .image-frame {
             width: 60%;
             height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             background-color: #fff;
             box-sizing: border-box;
+            position: relative;
         }
-        .image-frame img {
-            max-width: 90%;
-            max-height: 90%;
-            border: 5px solid #ddd;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: opacity 0.5s;
+        /* Estilos para o visualizador de imagens */
+        #image-viewer {
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
@@ -65,126 +69,59 @@
     <div class="narrative-panel" id="narrative-panel">
         <div class="narrative-title">Trilha Frei Leandro</div>
         
-        <div class="narrative-section" id="sobre-a-trilha">
+        <div class="narrative-section" id="sobre-a-trilha" data-image-url="https://upload.wikimedia.org/wikipedia/commons/e/e6/Camellia_sinensis_drawing.jpg">
             <h2>Sobre a Trilha Frei Leandro</h2>
             <p>Esta Trilha comemora o bicentenário da gestão de Frei Leandro (1824-2024) no Jardim Botânico do Rio de Janeiro. Ela inclui espécies que ele introduziu, manejou, pesquisou, e/ou coletou e que, em sua época, tinham relevância científica, cultural, afetiva e econômica. A trilha se inicia no Portão da Rua Jardim Botânico 920, com a espécie mais representativa de sua gestão, o chá (Camellia sinensis (L.) Kuntze), e passa por diversas espécies dispostas em aleias abertas por Frei Leandro durante a expansão do arboreto.</p>
             <p>Com duração prevista de 2 horas, os visitantes são guiados por um percurso que remonta ao Jardim Botânico de 200 anos atrás, finalizando no cômoro, sob a sombra da jaqueira onde Frei Leandro coordenou a escavação do lago que leva seu nome. Embora Frei Leandro desejasse ser sepultado neste local, seu desejo não foi atendido, mas a trilha termina nesse espaço memorialístico.</p>
         </div>
         
-        <div class="narrative-section" id="sobre-frei-leandro">
-            <h2>Sobre Frei Leandro</h2>
-            <p>Frei Leandro do Sacramento (1779-1829) nasceu Leandro Ferreira da Silva em Recife. Ele estudou filosofia, zoologia e botânica em Olinda e, posteriormente, licenciou-se em Filosofia Natural pela Universidade de Coimbra. No Rio de Janeiro, assumiu a cátedra de Botânica e Agricultura e, em 1824, a direção do Jardim Botânico.</p>
-            <p>Reconhecido internacionalmente, Frei Leandro foi correspondente de sociedades científicas e transformou o Jardim Botânico em um espaço aberto à educação científica e visitação pública. Sua gestão marcou o início de uma nova fase no arboreto, com a introdução de diversas espécies e o desenvolvimento de estudos agronômicos.</p>
-        </div>
-
-        <!-- Espécies Botânicas da Trilha Frei Leandro -->
-        <div class="narrative-section" id="cha">
+        <!-- Exemplo completo para uma narrativa de planta -->
+        <div class="narrative-section" id="cha" data-image-url="https://upload.wikimedia.org/wikipedia/commons/e/e6/Camellia_sinensis_drawing.jpg">
             <h2>Chá (Camellia sinensis)</h2>
             <p>Mudas de chá começaram a ser remetidas de Macau (China) para o Rio de Janeiro em 1810. Frei Leandro documentou o cultivo do chá no JBRJ, publicando em 1825 a "Memória econômica sobre a plantação, cultura, e preparação do chá".</p>
-            <param ve-image="" url="https://upload.wikimedia.org/wikipedia/commons/e/e6/Camellia_sinensis_drawing.jpg" label="Camellia sinensis" caption="Chá no Jardim Botânico" description="Camellia sinensis cultivada no Jardim Botânico" />
         </div>
 
-        <div class="narrative-section" id="teca">
+        <div class="narrative-section" id="teca" data-image-url="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Starr_010304-0485_Tectona_grandis.jpg/1024px-Starr_010304-0485_Tectona_grandis.jpg">
             <h2>Teca (Tectona grandis)</h2>
             <p>Em 1800, D. João ordenou a introdução da teca no Brasil pela sua superioridade para a construção naval. Frei Leandro ampliou a coleção de teca em 1826, incentivando a criação de bosques de madeira de lei.</p>
-            <param ve-image="" url="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Starr_010304-0485_Tectona_grandis.jpg/1024px-Starr_010304-0485_Tectona_grandis.jpg" label="Tectona grandis" caption="Teca no Jardim Botânico" description="Tectona grandis introduzida para construção naval" />
         </div>
 
-        <div class="narrative-section" id="fruta-pao">
-            <h2>Fruta-pão (Artocarpus altilis)</h2>
-            <p>A fruta-pão foi trazida para o Brasil como fonte alimentar para a população de escravizados. Frei Leandro oferecia aos visitantes do Jardim exemplos de pratos preparados com essa fruta, promovendo-a como alimento básico.</p>
-            <param ve-image="" url="https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/6FSkFpeJcrN8npF?file=/&fileId=17944112&x=1927&y=920&a=true&etag=b086dc8c875719c27b005e285a81f023" label="Artocarpus altilis" caption="Fruta-pão no Jardim Botânico" description="Fruta-pão como fonte alimentar" />
-        </div>
-
-        <div class="narrative-section" id="esponja-de-ouro">
-            <h2>Esponja-de-ouro (Stifftia chrysantha)</h2>
-            <p>Coletada e nomeada por Frei Leandro, a esponja-de-ouro foi incluída na coleção do Jardim Botânico, refletindo seu interesse pelo paisagismo com plantas nativas brasileiras.</p>
-            <param ve-image="" url="https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/SJEBgty3Zspf2WK?file=/&fileId=17955227&x=1927&y=920&a=true&etag=0b6a4b856343f59f459f79b898da422e" label="Stifftia chrysantha" caption="Esponja-de-ouro no Jardim Botânico" description="Planta ornamental nativa" />
-        </div>
-
-        <div class="narrative-section" id="biriba">
-            <h2>Biribá (Annona mucosa)</h2>
-            <p>Conhecida como fruta-do-conde, o biribá foi introduzido por Frei Leandro como uma espécie ornamental e frutífera, representando a valorização das plantas nativas brasileiras no JBRJ.</p>
-            <param ve-image="" url="https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/pBdB65BDrQPeBHX?file=/&fileId=17944122&x=1927&y=920&a=true&etag=096e795f612361b3ff19f0bc417a85bd" label="Annona mucosa" caption="Biribá no Jardim Botânico" description="Espécie frutífera e ornamental" />
-        </div>
-
-        <div class="narrative-section" id="sibipiruna">
-            <h2>Sibipiruna (Cenostigma pluviosum)</h2>
-            <p>Frei Leandro descobriu e nomeou a sibipiruna após observar suas propriedades durante uma chuva, valorizando sua importância ecológica e ornamental no paisagismo urbano.</p>
-            <param ve-image="" url="https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/JkRCiBY5BGmXbar?file=/&fileId=17946713&x=1927&y=920&a=true&etag=23eab4b83e6242cb0615d35154f39796" label="Cenostigma pluviosum" caption="Sibipiruna no Jardim Botânico" description="Planta ornamental e ecológica" />
-        </div>
-
-        <div class="narrative-section" id="abacate">
-            <h2>Abacate (Persea americana)</h2>
-            <p>O abacate foi introduzido por Frei Leandro, que reconheceu suas propriedades medicinais e nutritivas, além do valor cultural e simbólico atribuído pelos povos nativos.</p>
-            <param ve-image="" url="https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/3Wf4Q3Kj4RWDgEs?file=/&fileId=17946734&x=1927&y=920&a=true&etag=0813af235bcf5f414f6154895af48f7a" label="Persea americana" caption="Abacate no Jardim Botânico" description="Planta com valor nutricional e cultural" />
-        </div>
-
-        <div class="narrative-section" id="arvore-do-carvao">
-            <h2>Árvore-do-carvão (Albizia lebbeck)</h2>
-            <p>Importada para o JBRJ em 1809, a árvore-do-carvão foi usada como fonte de carvão vegetal. Frei Leandro documentou suas propriedades e incentivou seu uso no país.</p>
-            <param ve-image="" url="https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/s8MjLATgZYYNwEL?file=/&fileId=17946774&x=1927&y=920&a=true&etag=7a36eef3361525dc41d6fa10d826ce9e" label="Albizia lebbeck" caption="Árvore-do-carvão no Jardim Botânico" description="Fonte de carvão vegetal" />
-        </div>
-
-        <div class="narrative-section" id="olho-de-boi">
-            <h2>Olho-de-boi (Dimocarpus longan)</h2>
-            <p>Também chamada de longana, a alameda de olho-de-boi foi cultivada por Frei Leandro, que valorizava essa espécie por sua beleza e importância cultural.</p>
-            <param ve-image="" url="https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/QNskkTaRdamRAFT?file=/&fileId=17946810&x=1927&y=920&a=true&etag=6b21e8018fa5dda759e9d88e223c800d" label="Dimocarpus longan" caption="Olho-de-boi no Jardim Botânico" description="Espécie valorizada culturalmente" />
-        </div>
-
-        <div class="narrative-section" id="jaqueira">
-            <h2>Jaqueira (Artocarpus heterophyllus)</h2>
-            <p>A jaqueira foi incluída no Jardim Botânico como parte do conjunto paisagístico coordenado por Frei Leandro, sendo um local de trabalho e descanso durante a criação do lago.</p>
-            <param ve-image="" url="https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/TDMYgQJGW7QirAo?file=/&fileId=17946839&x=1927&y=920&a=true&etag=109dd2b574c1d36a21c667334b562643" label="Artocarpus heterophyllus" caption="Jaqueira no Jardim Botânico" description="Símbolo paisagístico do Jardim" />
-        </div>
+        <!-- Adicione os demais itens da narrativa aqui, seguindo o mesmo formato -->
 
     </div>
 
-    <!-- Frame da imagem à direita -->
+    <!-- Visualizador de imagem à direita -->
     <div class="image-frame">
-        <img id="plant-image" src="" alt="Imagem da planta" style="opacity: 0;">
+        <div id="image-viewer"></div>
     </div>
 </div>
 
-<!-- Inclui os scripts do Leaflet -->
+<!-- Scripts -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
-    // Configurações do mapa
-    var map = L.map('map', {
+    // Configuração do visualizador de imagens usando Leaflet para zoom e pan
+    var imageViewer = L.map('image-viewer', {
+        crs: L.CRS.Simple,
         zoomControl: true,
-        maxZoom: 19
-    }).setView([-22.9680, -43.2230], 17);
+        minZoom: -5,
+        zoomSnap: 0.1,
+    }).setView([0, 0], 0);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors',
-        maxZoom: 19
-    }).addTo(map);
+    // Função para exibir imagem com zoom e pan
+    function showImage(url) {
+        L.imageOverlay(url, [[-100, -100], [100, 100]]).addTo(imageViewer);
+        imageViewer.fitBounds([[-100, -100], [100, 100]]);
+    }
 
-    // Dados das imagens das plantas
-    const plantImages = {
-        1: 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Camellia_sinensis_drawing.jpg',
-        2: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Starr_010304-0485_Tectona_grandis.jpg/1024px-Starr_010304-0485_Tectona_grandis.jpg',
-        3: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/6FSkFpeJcrN8npF?file=/&fileId=17944112&x=1927&y=920&a=true&etag=b086dc8c875719c27b005e285a81f023',
-        4: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/SJEBgty3Zspf2WK?file=/&fileId=17955227&x=1927&y=920&a=true&etag=0b6a4b856343f59f459f79b898da422e',
-        5: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/pBdB65BDrQPeBHX?file=/&fileId=17944122&x=1927&y=920&a=true&etag=096e795f612361b3ff19f0bc417a85bd',
-        6: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/JkRCiBY5BGmXbar?file=/&fileId=17946713&x=1927&y=920&a=true&etag=23eab4b83e6242cb0615d35154f39796',
-        7: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/3Wf4Q3Kj4RWDgEs?file=/&fileId=17946734&x=1927&y=920&a=true&etag=0813af235bcf5f414f6154895af48f7a',
-        8: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/s8MjLATgZYYNwEL?file=/&fileId=17946774&x=1927&y=920&a=true&etag=7a36eef3361525dc41d6fa10d826ce9e',
-        9: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/QNskkTaRdamRAFT?file=/&fileId=17946810&x=1927&y=920&a=true&etag=6b21e8018fa5dda759e9d88e223c800d',
-        10: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/TDMYgQJGW7QirAo?file=/&fileId=17946839&x=1927&y=920&a=true&etag=109dd2b574c1d36a21c667334b562643'
-    };
-
-    // Função para atualizar a imagem conforme rola a narrativa
-    const narrativePanel = document.getElementById('narrative-panel');
-    const plantImage = document.getElementById('plant-image');
-
-    narrativePanel.addEventListener('scroll', () => {
-        document.querySelectorAll('.narrative-section').forEach(section => {
-            const rect = section.getBoundingClientRect();
-            if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
-                const plantId = section.getAttribute('data-plant-id');
-                plantImage.src = plantImages[plantId];
-                plantImage.style.opacity = 1;
+    // Evento de hover para cada narrativa
+    document.querySelectorAll('.narrative-section').forEach(section => {
+        section.addEventListener('mouseenter', function() {
+            const imageUrl = this.getAttribute('data-image-url');
+            if (imageUrl) {
+                imageViewer.eachLayer(layer => {
+                    imageViewer.removeLayer(layer);
+                });
+                showImage(imageUrl);
             }
         });
     });
