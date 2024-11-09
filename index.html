@@ -82,15 +82,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.0/gpx.min.js"></script>
 
 <script>
-    // Inicializa o mapa para exibir a trilha
-    var mapViewer = L.map('map-viewer').setView([-22.9674, -43.2291], 16);
+    // Inicializa o mapa, mas mantém oculto até que uma narrativa o acione
+    var mapViewer = L.map('map-viewer', { zoomControl: false }).setView([-22.9674, -43.2291], 16);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
         attribution: '© OpenStreetMap contributors'
     }).addTo(mapViewer);
     var gpxLayer;
 
-    // Inicializa o visualizador de imagens
+    // Inicialização do visualizador de imagens
     var imageViewer = L.map('image-viewer', {
         crs: L.CRS.Simple,
         zoomControl: true,
