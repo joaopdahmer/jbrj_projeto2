@@ -60,6 +60,19 @@
             width: 100%;
             height: 100%;
         }
+        /* Visualizador de imagem à direita */
+        .image-frame {
+            width: 60%;
+            height: 100vh;
+            background-color: #fff;
+            box-sizing: border-box;
+            position: relative;
+        }
+         /* Estilos para o visualizador de imagens */
+        #image-viewer {
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
 <body>
@@ -142,6 +155,49 @@
 
 </script>
 
+<!-- Scripts -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    // Configuração do visualizador de imagens usando Leaflet para zoom e pan
+    var imageViewer = L.map('image-viewer', {
+        crs: L.CRS.Simple,
+        zoomControl: true,
+        minZoom: -5,
+        zoomSnap: 0.1,
+    }).setView([0, 0], 0);
+
+    // Função para exibir imagem com zoom e pan
+    function showImage(url) {
+        L.imageOverlay(url, [[-100, -100], [100, 100]]).addTo(imageViewer);
+        imageViewer.fitBounds([[-100, -100], [100, 100]]);
+    }
+
+    // Evento de hover para cada narrativa
+    document.querySelectorAll('.narrative-section').forEach(section => {
+        section.addEventListener('mouseenter', function() {
+            const imageUrl = this.getAttribute('data-image-url');
+            if (imageUrl) {
+                imageViewer.eachLayer(layer => {
+                    imageViewer.removeLayer(layer);
+                });
+                showImage(imageUrl);
+            }
+        });
+    });
+</script>
+
+<!-- Scripts -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    // Inicialização do mapa OpenStreetMap focado no Jardim Botânico do Rio de Janeiro
+    var mapViewer = L.map('map-viewer').setView([-22.9674, -43.2291], 16); // Coordenadas para o JBRJ
+
+    // Adicionar a camada de tiles do OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(mapViewer);
+</script>
+
 </body>
 </html>
-
