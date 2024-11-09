@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Trilha Frei Leandro | Plant Humanities</title>
+
+    <!-- Inclui o CSS do Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <style>
+        /* Estilos gerais */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        /* Container principal */
+        .container {
+            position: relative;
+            height: 100vh;
+        }
+        /* Estilos para o mapa */
+        #map {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            transition: width 0.5s;
+            z-index: 1;
+        }
+        /* Painel de narrativa */
+        .narrative-panel {
+            width: 50%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            right: -50%;
+            background-color: white;
+            overflow-y: auto;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: right 0.5s;
+            z-index: 1000;
+        }
+        /* Botão de fechar */
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 24px;
+            line-height: 24px;
+            cursor: pointer;
+        }
+        /* Estilos para o conteúdo da narrativa */
+        .narrative-content img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        .narrative-content h2 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Div onde o mapa será renderizado -->
+    <div id="map"></div>
+
+    <!-- Painel de narrativa -->
+    <div class="narrative-panel" id="narrative-panel">
+        <span class="close-button" id="close-button">&times;</span>
+        <div class="narrative-content" id="narrative-content">
+            <!-- O conteúdo será preenchido dinamicamente -->
+        </div>
+    </div>
+</div>
+
+<!-- Inclui os scripts do Leaflet -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<!-- Inclui o plugin Leaflet GPX -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.0/gpx.min.js"></script>
+
+<script>
+    // Inicializa o mapa
+    var map = L.map('map', {
+        zoomControl: false,
+        maxZoom: 19
+    }).setView([-22.9680, -43.2230], 17);
+
+    // Adiciona a camada de tiles do OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors',
+        maxZoom: 19
+    }).addTo(map);
+
+    // Dados GeoJSON das plantas
+    var plantasGeoJSON = {
+        "type": "FeatureCollection",
+        "features": [
+            { "type": "Feature", "properties": { "id": 1 }, "geometry": { "type": "Point", "coordinates": [ -43.222145588873275, -22.969239816399224 ] } },
+            { "type": "Feature", "properties": { "id": 2 }, "geometry": { "type": "Point", "coordinates": [ -43.22322470227887, -22.970023005533903 ] } },
+            { "type": "Feature", "properties": { "id": 3 }, "geometry": { "type": "Point", "coordinates": [ -43.224356107523484, -22.970087181881812 ] } },
+            { "type": "Feature", "properties": { "id": 4 }, "geometry": { "type": "Point", "coordinates": [ -43.226850665935757, -22.968098903547496 ] } },
+            { "type": "Feature", "properties": { "id": 5 }, "geometry": { "type": "Point", "coordinates": [ -43.225869005502922, -22.967514185710993 ] } },
+            { "type": "Feature", "properties": { "id": 6 }, "geometry": { "type": "Point", "coordinates": [ -43.227575620976978, -22.967038805356093 ] } },
+            { "type": "Feature", "properties": { "id": 7 }, "geometry": { "type": "Point", "coordinates": [ -43.228031986117664, -22.966770215455586 ] } },
+            { "type": "Feature", "properties": { "id": 8 }, "geometry": { "type": "Point", "coordinates": [ -43.226009242707626, -22.966014360691322 ] } },
+            { "type": "Feature", "properties": { "id": 9 }, "geometry": { "type": "Point", "coordinates": [ -43.223996006904699, -22.967685916864205 ] } },
+            { "type": "Feature", "properties": { "id": 10 }, "geometry": { "type": "Point", "coordinates": [ -43.224678771939402, -22.96835679739003 ] } }
+        ]
+    };
+
+    // Detalhes das plantas
+    var plantDetails = {
+        1: { name: 'Chá (Camellia sinensis)', shortDescription: 'Introduzido no Brasil por Frei Leandro.', fullNarrative: `<p>Frei Leandro desempenhou um papel fundamental na introdução do chá no Brasil no início do século XIX. Ele cultivou chá no Jardim Botânico, promovendo pesquisas sobre seu cultivo e contribuindo para a economia da época.</p>`, imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Camellia_sinensis_drawing.jpg' },
+        2: { name: 'Teca (Tectona grandis)', shortDescription: 'Usada na indústria madeireira.', fullNarrative: `<p>A teca, introduzida por Frei Leandro, foi valorizada por sua madeira durável e estudada no Jardim Botânico para uso na construção naval e marcenaria de alto padrão.</p>`, imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Starr_010304-0485_Tectona_grandis.jpg/1024px-Starr_010304-0485_Tectona_grandis.jpg' },
+        3: { name: 'Fruta-pão (Artocarpus altilis)', shortDescription: 'Fonte alimentar rica.', fullNarrative: `<p>Frei Leandro trouxe a fruta-pão para diversificar a alimentação e fornecer uma fonte nutritiva para a população. Ela se tornou essencial em períodos de escassez de alimentos.</p>`, imageUrl: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/6FSkFpeJcrN8npF?file=/&fileId=17944112&x=1927&y=920&a=true&etag=b086dc8c875719c27b005e285a81f023' },
+        4: { name: 'Esponja-de-ouro (Senna spectabilis)', shortDescription: 'Potencial ornamental e medicinal.', fullNarrative: `<p>Frei Leandro cultivou essa espécie no Jardim Botânico, incentivando seu uso ornamental e explorando suas propriedades medicinais.</p>`, imageUrl: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/SJEBgty3Zspf2WK?file=/&fileId=17955227&x=1927&y=920&a=true&etag=0b6a4b856343f59f459f79b898da422e' },
+        5: { name: 'Biribá (Rollinia mucosa)', shortDescription: 'Fruta doce e nutritiva.', fullNarrative: `<p>Frei Leandro estudou o biribá no Jardim Botânico para promover seu cultivo e consumo, reconhecendo seu valor como fonte alimentar saborosa.</p>`, imageUrl: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/pBdB65BDrQPeBHX?file=/&fileId=17944122&x=1927&y=920&a=true&etag=096e795f612361b3ff19f0bc417a85bd' },        
+        6: { 
+            name: 'Sibipiruna (Caesalpinia peltophoroides)', 
+            shortDescription: 'Usada na arborização urbana.', 
+            fullNarrative: `<p>Frei Leandro promoveu a sibipiruna para arborização urbana, incentivando o uso de espécies nativas no embelezamento das cidades. Suas flores amarelas exuberantes fizeram dela uma escolha popular para projetos paisagísticos.</p>`, 
+            imageUrl: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/JkRCiBY5BGmXbar?file=/&fileId=17946713&x=1927&y=920&a=true&etag=23eab4b83e6242cb0615d35154f39796' 
+        },
+        7: { 
+            name: 'Abacate (Persea americana)', 
+            shortDescription: 'Estudado por seu valor nutricional.', 
+            fullNarrative: `<p>Frei Leandro estudou o abacate no Jardim Botânico para explorar seu potencial agrícola e nutricional, contribuindo para a difusão do seu cultivo no Brasil.</p>`, 
+            imageUrl: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/3Wf4Q3Kj4RWDgEs?file=/&fileId=17946734&x=1927&y=920&a=true&etag=0813af235bcf5f414f6154895af48f7a' 
+        },
+        8: { 
+            name: 'Árvore-do-carvão (Calliandra brevipes)', 
+            shortDescription: 'Explorada como fonte de combustível sustentável.', 
+            fullNarrative: `<p>A árvore-do-carvão foi cultivada por Frei Leandro como alternativa sustentável para a produção de carvão vegetal, reduzindo o impacto sobre as florestas nativas.</p>`, 
+            imageUrl: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/s8MjLATgZYYNwEL?file=/&fileId=17946774&x=1927&y=920&a=true&etag=7a36eef3361525dc41d6fa10d826ce9e' 
+        },
+        9: { 
+            name: 'Olho-de-boi (Machaerium acutifolium)', 
+            shortDescription: 'Utilizado em artesanato e medicina tradicional.', 
+            fullNarrative: `<p>O olho-de-boi foi estudado por suas propriedades medicinais e por suas sementes ornamentais usadas em joias e artesanato. Frei Leandro contribuiu para o conhecimento de seu valor econômico e medicinal.</p>`, 
+            imageUrl: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/QNskkTaRdamRAFT?file=/&fileId=17946810&x=1927&y=920&a=true&etag=6b21e8018fa5dda759e9d88e223c800d' 
+        },
+        10: { 
+            name: 'Jaqueira (Artocarpus heterophyllus)', 
+            shortDescription: 'Valiosa fonte alimentar.', 
+            fullNarrative: `<p>Frei Leandro introduziu a jaqueira no Jardim Botânico, valorizando seu potencial nutricional e promovendo seu uso em diversas preparações culinárias. A jaca se tornou uma importante fonte de alimento no Brasil.</p>`, 
+            imageUrl: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/TDMYgQJGW7QirAo?file=/&fileId=17946839&x=1927&y=920&a=true&etag=109dd2b574c1d36a21c667334b562643' 
+        }
+    };
+
+    // Ícone personalizado para as plantas
+    var plantIcon = L.icon({
+        iconUrl: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/PwkmGYHBiPLXqkQ?file=/&fileId=17944130&x=1927&y=920&a=true&etag=8baaf56e22ff20721c74c68b82a9eb73',
+        iconSize: [32, 37],
+        iconAnchor: [16, 37],
+        popupAnchor: [0, -28]
+    });
+
+    L.geoJSON(plantasGeoJSON, {
+        pointToLayer: function(feature, latlng) {
+            return L.marker(latlng, { icon: plantIcon });
+        },
+        onEachFeature: function(feature, layer) {
+            var details = plantDetails[feature.properties.id];
+            layer.bindPopup('<strong>' + details.name + '</strong><br>' + details.shortDescription);
+            layer.on('click', function() {
+                showNarrativePanel(feature.properties.id);
+            });
+        }
+    }).addTo(map);
+
+    function showNarrativePanel(plantId) {
+        var details = plantDetails[plantId];
+        var narrativeContent = document.getElementById('narrative-content');
+        narrativeContent.innerHTML = `
+            <h2>${details.name}</h2>
+            <img src="${details.imageUrl}" alt="${details.name}">
+            ${details.fullNarrative}
+        `;
+        document.getElementById('narrative-panel').style.right = '0';
+        document.getElementById('map').style.width = '50%';
+        setTimeout(() => { map.invalidateSize(); }, 500);
+    }
+
+    function hideNarrativePanel() {
+        document.getElementById('narrative-panel').style.right = '-50%';
+        document.getElementById('map').style.width = '100%';
+        setTimeout(() => { map.invalidateSize(); }, 500);
+    }
+
+    document.getElementById('close-button').addEventListener('click', hideNarrativePanel);
+</script>
+
+</body>
+</html>
+
+       
