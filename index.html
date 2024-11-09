@@ -51,14 +51,16 @@
             height: 100vh;
             box-sizing: border-box;
             position: relative;
-            display: none; /* Esconder inicialmente */
+            display: none;
         }
         #map-viewer, #image-viewer {
             width: 100%;
             height: 100%;
         }
-        /* Exibir o mapa apenas quando .map-frame tiver a classe 'visible' */
         .map-frame.visible {
+            display: block;
+        }
+        .image-frame.visible {
             display: block;
         }
     </style>
@@ -86,7 +88,7 @@
             <h2>Chá (Camellia sinensis)</h2>
             <p>Mudas de chá começaram a ser remetidas de Macau...</p>
         </div>
-        
+
         <!-- Outras narrativas seguem o mesmo padrão... -->
     </div>
 
@@ -94,7 +96,7 @@
     <div class="map-frame" id="map-container">
         <div id="map-viewer"></div>
     </div>
-    <div class="image-frame">
+    <div class="image-frame" id="image-container">
         <div id="image-viewer"></div>
     </div>
 </div>
@@ -125,9 +127,12 @@
 
     // Exibir o mapa apenas ao passar o mouse sobre as duas primeiras narrativas
     const mapContainer = document.getElementById('map-container');
+    const imageContainer = document.getElementById('image-container');
+    
     document.querySelectorAll('#trilha-intro, #sobre-frei-leandro').forEach(section => {
         section.addEventListener('mouseenter', () => {
             mapContainer.classList.add('visible'); // Mostra o mapa
+            imageContainer.classList.remove('visible'); // Oculta o visualizador de imagens
         });
         section.addEventListener('mouseleave', () => {
             mapContainer.classList.remove('visible'); // Oculta o mapa
@@ -146,7 +151,11 @@
     document.querySelectorAll('.narrative-section').forEach(section => {
         section.addEventListener('mouseenter', function() {
             const imageUrl = this.getAttribute('data-image-url');
-            if (imageUrl) showImage(imageUrl);
+            if (imageUrl) {
+                showImage(imageUrl);
+                imageContainer.classList.add('visible'); // Mostra o visualizador de imagem
+                mapContainer.classList.remove('visible'); // Oculta o mapa
+            }
 
             const locationId = this.getAttribute('id');
             if (narrativeLocations[locationId]) {
