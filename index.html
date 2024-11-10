@@ -60,7 +60,7 @@
             <strong>Trilha Frei Leandro:</strong> Esta Trilha comemora o bicentenário da gestão de Frei Leandro (1824-2024) no Jardim Botânico do Rio de Janeiro. Dela constam espécies que ele introduziu, manejou, pesquisou, e/ou coletou e que, em sua época, tinham relevância científica, cultural, afetiva e econômica. A trilha se inicia no Portão da Rua Jardim Botânico 920, com a espécie mais representativa de sua gestão, o chá (Camellia sinensis (L.) Kuntze), passa por algumas espécies do ‘velho’ jardim e por outras dispostas em aleias abertas por Frei Leandro no processo de expansão do arboreto, finalizando no cômoro, à sombra da jaqueira sob a qual ele se sentava para coordenar a escavação do lago que hoje leva seu nome. Embora seu desejo de ser sepultado ali não tenha sido atendido, a trilha termina nesse espaço memorialístico.
         </div>
         <hr>
-        <div class="narrativaTexto" onclick="mostrarOSM()" onmouseover="mostrarOSM()">
+        <div class="narrativaTexto" onclick="mostrarImagemFreiLeandro()" onmouseover="mostrarImagemFreiLeandro()">
             <strong>Sobre Frei Leandro:</strong> Frei Leandro do Sacramento (1779-1829), nascido em Recife, foi um importante botânico e professor que marcou a história do Jardim Botânico do Rio de Janeiro. Nomeado diretor do JBRJ, promoveu significativas mudanças, ampliou o arboreto e estabeleceu novas aleias. Suas contribuições para a botânica brasileira, incluindo a introdução de novas espécies, são recordadas pela trilha que celebra seu legado, permitindo aos visitantes um mergulho na história e no ambiente natural do Jardim Botânico de 200 anos atrás.
         </div>
         <hr>
@@ -135,6 +135,22 @@
             new L.GPX(gpx, { async: true }).on('loaded', function(e) {
                 osmMap.fitBounds(e.target.getBounds());
             }).addTo(osmMap);
+        }
+
+        function mostrarImagemFreiLeandro() {
+            limparConteudo();
+            const imagemDiv = document.createElement('div');
+            imagemDiv.id = 'imagemFreiLeandro';
+            conteudoDiv.appendChild(imagemDiv);
+
+            OpenSeadragon({
+                id: "imagemFreiLeandro",
+                prefixUrl: "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/2.4.2/images/",
+                tileSources: {
+                    type: 'image',
+                    url: 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/NobP4aPAH9dTL3M?file=/&fileId=17987500&x=1920&y=925&a=true&etag=c0966b1085c6a7402cd4e2c2a6e1c322'
+                }
+            });
         }
 
         function mostrarPlantaImagem(planta) {
