@@ -1,0 +1,46 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+#narrativas {
+    width: 30%;
+    padding: 20px;
+    background-color: #f0f0f0;
+    box-sizing: border-box;
+    overflow-y: auto;
+    border-right: 1px solid #ddd;
+    line-height: 1.6;
+    font-size: 14px;
+    color: #333;
+}
+#conteudo {
+    width: 70%;
+    position: relative;
+    overflow: hidden;
+}
+#conteudo > div {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+}
+.narrativaTexto {
+    cursor: pointer;
+}
+.narrativaTexto:hover {
+    color: #007BFF;
+}
+h3 {
+    font-size: 18px;
+    margin-top: 0;
+    font-weight: bold;
+}
+hr {
+    border: none;
+    border-top: 1px solid #aaa;
+    margin: 20px 0;
+}
