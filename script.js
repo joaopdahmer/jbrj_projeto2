@@ -8,6 +8,7 @@ function mostrarOSM() {
     limparConteudo();
     const osmDiv = document.createElement('div');
     osmDiv.id = 'osmMap';
+    osmDiv.style.height = '100%';
     conteudoDiv.appendChild(osmDiv);
 
     const osmMap = L.map('osmMap').setView([-22.9681, -43.2254], 15);
@@ -25,6 +26,7 @@ function mostrarImagemFreiLeandro() {
     limparConteudo();
     const imagemDiv = document.createElement('div');
     imagemDiv.id = 'imagemFreiLeandro';
+    imagemDiv.style.height = '100%';
     conteudoDiv.appendChild(imagemDiv);
 
     OpenSeadragon({
@@ -41,6 +43,7 @@ function mostrarPlantaImagem(planta) {
     limparConteudo();
     const imagemDiv = document.createElement('div');
     imagemDiv.id = 'imagem';
+    imagemDiv.style.height = '100%';
     conteudoDiv.appendChild(imagemDiv);
 
     const imageUrl = {
