@@ -1,9 +1,12 @@
+// Seleciona o elemento que exibirá o conteúdo dinâmico
 const conteudoDiv = document.getElementById('conteudo');
 
+// Função para limpar o conteúdo atual
 function limparConteudo() {
     conteudoDiv.innerHTML = '';
 }
 
+// Função para exibir o mapa OpenStreetMap com a trilha GPX
 function mostrarOSM() {
     limparConteudo();
     const osmDiv = document.createElement('div');
@@ -16,12 +19,14 @@ function mostrarOSM() {
         attribution: '&copy; OpenStreetMap contributors'
     }).addTo(osmMap);
 
+    // Adiciona a trilha GPX
     const gpx = 'https://raw.githubusercontent.com/joaopdahmer/jbrj_projeto2/main/trilha_frei_leandro.gpx';
     new L.GPX(gpx, { async: true }).on('loaded', function(e) {
         osmMap.fitBounds(e.target.getBounds());
     }).addTo(osmMap);
 }
 
+// Função para exibir a imagem de Frei Leandro usando OpenSeadragon
 function mostrarImagemFreiLeandro() {
     limparConteudo();
     const imagemDiv = document.createElement('div');
@@ -39,6 +44,7 @@ function mostrarImagemFreiLeandro() {
     });
 }
 
+// Função para exibir imagens específicas de plantas usando OpenSeadragon
 function mostrarPlantaImagem(planta) {
     limparConteudo();
     const imagemDiv = document.createElement('div');
@@ -46,6 +52,7 @@ function mostrarPlantaImagem(planta) {
     imagemDiv.style.height = '100%';
     conteudoDiv.appendChild(imagemDiv);
 
+    // Lista de URLs de imagens para cada planta
     const imageUrl = {
         'camellia': 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Camellia_sinensis_drawing.jpg',
         'tectona': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Starr_010304-0485_Tectona_grandis.jpg/1024px-Starr_010304-0485_Tectona_grandis.jpg',
@@ -59,12 +66,17 @@ function mostrarPlantaImagem(planta) {
         'artocarpus2': 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/TDMYgQJGW7QirAo?file=/&fileId=17946839&x=1927&y=920&a=true&etag=109dd2b574c1d36a21c667334b562643'
     };
 
-    OpenSeadragon({
-        id: "imagem",
-        prefixUrl: "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/2.4.2/images/",
-        tileSources: {
-            type: 'image',
-            url: imageUrl[planta]
-        }
-    });
+    // Verifica se a imagem existe e a exibe usando OpenSeadragon
+    if (imageUrl[planta]) {
+        OpenSeadragon({
+            id: "imagem",
+            prefixUrl: "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/2.4.2/images/",
+            tileSources: {
+                type: 'image',
+                url: imageUrl[planta]
+            }
+        });
+    } else {
+        console.error("Imagem não encontrada para a planta: " + planta);
+    }
 }
