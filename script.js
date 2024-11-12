@@ -1,6 +1,4 @@
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const conteudoDiv = document.getElementById('conteudo');
+const conteudoDiv = document.getElementById('conteudo');
 
         function limparConteudo() {
             conteudoDiv.innerHTML = '';
@@ -10,7 +8,6 @@
             limparConteudo();
             const osmDiv = document.createElement('div');
             osmDiv.id = 'osmMap';
-            osmDiv.style.height = '100%';  // Configura a altura do mapa
             conteudoDiv.appendChild(osmDiv);
 
             const osmMap = L.map('osmMap').setView([-22.9681, -43.2254], 15);
@@ -28,9 +25,7 @@
             limparConteudo();
             const imagemDiv = document.createElement('div');
             imagemDiv.id = 'imagemFreiLeandro';
-            imagemDiv.style.height = '100%';  // Configura a altura da imagem
             conteudoDiv.appendChild(imagemDiv);
-
             OpenSeadragon({
                 id: "imagemFreiLeandro",
                 prefixUrl: "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/2.4.2/images/",
@@ -40,12 +35,10 @@
                 }
             });
         }
-
         function mostrarPlantaImagem(planta) {
             limparConteudo();
             const imagemDiv = document.createElement('div');
             imagemDiv.id = 'imagem';
-            imagemDiv.style.height = '100%';  // Configura a altura da imagem
             conteudoDiv.appendChild(imagemDiv);
 
             const imageUrl = {
@@ -70,5 +63,3 @@
                 }
             });
         }
-    });
-</script>
