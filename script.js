@@ -50,7 +50,7 @@ function mostrarPlantaImagem(planta) {
         'annona': 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/pBdB65BDrQPeBHX?file=/&fileId=17944122&x=1927&y=920&a=true&etag=096e795f612361b3ff19f0bc417a85bd',
         'cenostigma': 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/cz6Z7zDSSKD47AN?file=/&fileId=18006062&x=1441&y=761&a=true&etag=b90cb9b6b856db4b82583932fc602d20',
         'persea': 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/tSyq2oD8LPj62kZ?file=/&fileId=18006060&x=1441&y=761&a=true&etag=f166e7f4020077de3b04e42cb7875e86',
-        'albizia': 'H:/Meu Drive/codigos/jbrj_projeto2/python/imagem_dzi_files/imagem.dzi',  // Caminho para o DZI da nova imagem
+        'albizia': 'python/imagem_dzi_fileshttps://github.com/joaopdahmer/jbrj_projeto2/tree/main/python/imagem_dzi_files',  // Caminho para o DZI da nova imagem
         'dimocarpus': 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/QNskkTaRdamRAFT?file=/&fileId=17946810&x=1927&y=920&a=true&etag=6b21e8018fa5dda759e9d88e223c800d',
         'artocarpus2': 'https://cloud.jbrj.gov.br/apps/files_sharing/publicpreview/TDMYgQJGW7QirAo?file=/&fileId=17946839&x=1927&y=920&a=true&etag=109dd2b574c1d36a21c667334b562643'
     };
